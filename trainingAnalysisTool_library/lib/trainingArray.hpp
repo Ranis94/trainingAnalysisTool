@@ -6,14 +6,21 @@
 #include <vector>
 #include <iostream>
 
-class TRAININGARRAY : public std::vector<TRAININGINSTANCE>
+class TRAININGARRAY
 {
+    private:
+        std::vector<std::shared_ptr<TRAININGINSTANCE>> m_trainingInstances;
     //(*this)[0]
     public:
 
     TRAININGARRAY()
     {
         std::cout << "In trainingArray" << std::endl;
+    }
+
+    void addTrainingInstance()
+    {
+        
     }
 
     // Farsa struct
