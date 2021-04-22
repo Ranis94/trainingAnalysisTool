@@ -1,0 +1,22 @@
+[
+{
+  "directory": "C:/vsCodeProjects/trainingAnalysisTool/build/trainingAnalysisTool_library",
+  "command": "C:\\Mingw-w64\\mingw64\\bin\\x86_64-w64-mingw32-g++.exe  @CMakeFiles/trainingAnalysisTool_lib.dir/includes_CXX.rsp -g -o CMakeFiles\\trainingAnalysisTool_lib.dir\\src\\trainingInstance.cpp.obj -c C:\\vsCodeProjects\\trainingAnalysisTool\\trainingAnalysisTool_library\\src\\trainingInstance.cpp",
+  "file": "C:/vsCodeProjects/trainingAnalysisTool/trainingAnalysisTool_library/src/trainingInstance.cpp"
+},
+{
+  "directory": "C:/vsCodeProjects/trainingAnalysisTool/build/trainingAnalysisTool_library",
+  "command": "C:\\Mingw-w64\\mingw64\\bin\\x86_64-w64-mingw32-g++.exe  @CMakeFiles/trainingAnalysisTool_lib.dir/includes_CXX.rsp -g -o CMakeFiles\\trainingAnalysisTool_lib.dir\\src\\running.cpp.obj -c C:\\vsCodeProjects\\trainingAnalysisTool\\trainingAnalysisTool_library\\src\\running.cpp",
+  "file": "C:/vsCodeProjects/trainingAnalysisTool/trainingAnalysisTool_library/src/running.cpp"
+},
+{
+  "directory": "C:/vsCodeProjects/trainingAnalysisTool/build/trainingAnalysisTool_library",
+  "command": "C:\\Mingw-w64\\mingw64\\bin\\x86_64-w64-mingw32-g++.exe  @CMakeFiles/trainingAnalysisTool_lib.dir/includes_CXX.rsp -g -o CMakeFiles\\trainingAnalysisTool_lib.dir\\src\\trainingArray.cpp.obj -c C:\\vsCodeProjects\\trainingAnalysisTool\\trainingAnalysisTool_library\\src\\trainingArray.cpp",
+  "file": "C:/vsCodeProjects/trainingAnalysisTool/trainingAnalysisTool_library/src/trainingArray.cpp"
+},
+{
+  "directory": "C:/vsCodeProjects/trainingAnalysisTool/build/trainingAnalysisTool_exe",
+  "command": "C:\\Mingw-w64\\mingw64\\bin\\x86_64-w64-mingw32-g++.exe  @CMakeFiles/trainingAnalysisTool.dir/includes_CXX.rsp -g -o CMakeFiles\\trainingAnalysisTool.dir\\main.cpp.obj -c C:\\vsCodeProjects\\trainingAnalysisTool\\trainingAnalysisTool_exe\\main.cpp",
+  "file": "C:/vsCodeProjects/trainingAnalysisTool/trainingAnalysisTool_exe/main.cpp"
+}
+]

@@ -1,0 +1,3 @@
+"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\trainingAnalysisTool.dir/objects.a
+C:\Mingw-w64\mingw64\bin\ar.exe cr CMakeFiles\trainingAnalysisTool.dir/objects.a @CMakeFiles\trainingAnalysisTool.dir\objects1.rsp
+C:\Mingw-w64\mingw64\bin\x86_64-w64-mingw32-g++.exe -g -Wl,--whole-archive CMakeFiles\trainingAnalysisTool.dir/objects.a -Wl,--no-whole-archive -o trainingAnalysisTool.exe -Wl,--out-implib,libtrainingAnalysisTool.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\trainingAnalysisTool.dir\linklibs.rsp

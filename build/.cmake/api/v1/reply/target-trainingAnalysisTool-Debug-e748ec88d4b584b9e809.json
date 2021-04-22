@@ -1,0 +1,124 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "trainingAnalysisTool_exe/trainingAnalysisTool.exe"
+		},
+		{
+			"path" : "trainingAnalysisTool_exe/trainingAnalysisTool.pdb"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_executable",
+			"target_link_libraries"
+		],
+		"files" : 
+		[
+			"trainingAnalysisTool_exe/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 2,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 5,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-g"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 2,
+					"path" : "C:/vsCodeProjects/trainingAnalysisTool/trainingAnalysisTool_library/lib"
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "trainingAnalysisTool_lib::@1a913248e6765a15f8d8"
+		}
+	],
+	"id" : "trainingAnalysisTool::@ee2c57f5606faf98c6cb",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "-g",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "..\\trainingAnalysisTool_library\\libtrainingAnalysisTool_lib.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "trainingAnalysisTool",
+	"nameOnDisk" : "trainingAnalysisTool.exe",
+	"paths" : 
+	{
+		"build" : "trainingAnalysisTool_exe",
+		"source" : "trainingAnalysisTool_exe"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "trainingAnalysisTool_exe/main.cpp",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "EXECUTABLE"
+}

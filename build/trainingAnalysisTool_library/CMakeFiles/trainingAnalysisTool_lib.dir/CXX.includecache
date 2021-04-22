@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../trainingAnalysisTool_library/lib/running.hpp
+trainingInstance.hpp
+../trainingAnalysisTool_library/lib/trainingInstance.hpp
+string
+-
+map
+-
+
+../trainingAnalysisTool_library/lib/trainingArray.hpp
+trainingInstance.hpp
+../trainingAnalysisTool_library/lib/trainingInstance.hpp
+vector
+-
+iostream
+-
+
+../trainingAnalysisTool_library/lib/trainingInstance.hpp
+string
+-
+map
+-
+
+C:/vsCodeProjects/trainingAnalysisTool/trainingAnalysisTool_library/src/running.cpp
+running.hpp
+C:/vsCodeProjects/trainingAnalysisTool/trainingAnalysisTool_library/src/running.hpp
+
+C:/vsCodeProjects/trainingAnalysisTool/trainingAnalysisTool_library/src/trainingArray.cpp
+trainingArray.hpp
+C:/vsCodeProjects/trainingAnalysisTool/trainingAnalysisTool_library/src/trainingArray.hpp
+
+C:/vsCodeProjects/trainingAnalysisTool/trainingAnalysisTool_library/src/trainingInstance.cpp
+trainingInstance.hpp
+C:/vsCodeProjects/trainingAnalysisTool/trainingAnalysisTool_library/src/trainingInstance.hpp
+

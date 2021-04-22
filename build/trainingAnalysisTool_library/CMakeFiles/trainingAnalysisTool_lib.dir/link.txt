@@ -1,0 +1,2 @@
+C:\Mingw-w64\mingw64\bin\ar.exe qc libtrainingAnalysisTool_lib.a CMakeFiles/trainingAnalysisTool_lib.dir/src/trainingInstance.cpp.obj CMakeFiles/trainingAnalysisTool_lib.dir/src/running.cpp.obj CMakeFiles/trainingAnalysisTool_lib.dir/src/trainingArray.cpp.obj
+C:\Mingw-w64\mingw64\bin\ranlib.exe libtrainingAnalysisTool_lib.a
