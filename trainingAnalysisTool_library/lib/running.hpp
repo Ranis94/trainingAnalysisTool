@@ -18,6 +18,8 @@ class RUNNING : public TRAININGINSTANCE
 
         double getCadence();
         std::map<std::string, double> getHeartRateZones();
+
+        // Might be unnecessary with setters, because after object is instanciated these should not change
         void setCadence(double cadence);
         void setHeartRateZones(std::map<std::string, double> heartRateZones);
         

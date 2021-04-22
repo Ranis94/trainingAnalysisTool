@@ -9,6 +9,7 @@ class TRAININGINSTANCE
     private:
         int m_duration;
         std::string m_type = "";
+        //Add date and time of training as well -> weekday and week number as well. For other purposes later
 
     public:
         TRAININGINSTANCE(std::string type, int duration)
@@ -18,10 +19,6 @@ class TRAININGINSTANCE
         int getDuration();
         virtual void setType(std::string type);
         virtual void setDuration(int duration);
-
-        // Getters from sub classes
-        virtual double getCadence();
-        virtual std::map<std::string, double> getHeartRateZones();
 
 };
 #endif
