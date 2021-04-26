@@ -9,52 +9,60 @@
 
 int main()
 {
-    // --- !=Run 1
-    std::string notRun = "notRun";
-    int durationNotRun = 30;
-    TRAININGINSTANCE NotRun(notRun, durationNotRun);
 
     // --- Run 1
     std::string run1 = "run";
     int durationRun1 = 30;
-    double cadanceRun1 = 170;
+    double cadanceRun1 = 160;
     std::map<std::string, double> heartZonesRun1;
     heartZonesRun1.insert(std::make_pair("zone1", 5));
     heartZonesRun1.insert(std::make_pair("zone2", 5));
     heartZonesRun1.insert(std::make_pair("zone3", 5));
     heartZonesRun1.insert(std::make_pair("zone4", 5));
     heartZonesRun1.insert(std::make_pair("zone5", 5));
-    RUNNING Run1(run1, durationRun1, cadanceRun1, heartZonesRun1);
 
     // --- Run 2
     std::string run2 = "run";
-    int durationRun2 = 36;
-    double cadanceRun2 = 180;
+    int durationRun2 = 40;
+    double cadanceRun2 = 170;
     std::map<std::string, double> heartZonesRun2;
-    heartZonesRun2.insert(std::make_pair("zone1", 6));
-    heartZonesRun2.insert(std::make_pair("zone2", 6));
-    heartZonesRun2.insert(std::make_pair("zone3", 6));
-    heartZonesRun2.insert(std::make_pair("zone4", 6));
-    heartZonesRun2.insert(std::make_pair("zone5", 6));
-    RUNNING Run2(run2, durationRun2, cadanceRun2, heartZonesRun2);
+    heartZonesRun2.insert(std::make_pair("zone1", 10));
+    heartZonesRun2.insert(std::make_pair("zone2", 10));
+    heartZonesRun2.insert(std::make_pair("zone3", 10));
+    heartZonesRun2.insert(std::make_pair("zone4", 10));
+    heartZonesRun2.insert(std::make_pair("zone5", 10));
+
+        // --- Run 2
+    std::string run3 = "run";
+    int durationRun3 = 50;
+    double cadanceRun3 = 180;
+    std::map<std::string, double> heartZonesRun3;
+    heartZonesRun3.insert(std::make_pair("zone1", 20));
+    heartZonesRun3.insert(std::make_pair("zone2", 20));
+    heartZonesRun3.insert(std::make_pair("zone3", 20));
+    heartZonesRun3.insert(std::make_pair("zone4", 20));
+    heartZonesRun3.insert(std::make_pair("zone5", 20));
+
+    
+    std::cout << "map: " << heartZonesRun3["zone1"] << std::endl;
 
     TRAININGARRAY onlyRunning;
-    onlyRunning.push_back(Run1);
-    onlyRunning.push_back(Run2);
-    onlyRunning.push_back(NotRun);
+    onlyRunning.addRunningInstance(run1, durationRun1, cadanceRun1, heartZonesRun1);
+    onlyRunning.addRunningInstance(run2, durationRun2, cadanceRun2, heartZonesRun2);
+    onlyRunning.addRunningInstance(run3, durationRun3, cadanceRun3, heartZonesRun3);
 
-    std::string testType = onlyRunning[0].getType();
-    std::cout << testType << std::endl;
-    std::cout << onlyRunning.size() << std::endl;
 
     // Test dur
-    double avgDur = onlyRunning.getAverageDuration();
-    std::cout << "avgDur: " << avgDur << std::endl;
-    double totDur = onlyRunning.getTotalDuration();
-    std::cout << "totDur: " << totDur << std::endl;
+    std::cout << "avgDur: " << onlyRunning.getAverageDuration() << std::endl;
+    std::cout << "totDur: " << onlyRunning.getTotalDuration() << std::endl;
+    
     // Test cadence
-    double avgCad = onlyRunning.getAverageCadence();
-    std::cout << "avgCad: " << avgCad << std::endl;
-    double totCad = onlyRunning.getTotalCadence();
-    std::cout << "totDur: " << totDur << std::endl;
+    std::cout << "avgCad: " << onlyRunning.getAverageCadence() << std::endl;
+    std::cout << "totDur: " << onlyRunning.getTotalCadence() << std::endl;
+
+    // Test time in zone
+    std::cout << "Time in Zone1: " << onlyRunning.getTotalTimeSpentZone1() << std::endl;
+
+    // Test number of activities
+    std::cout << "Number of activities: " << onlyRunning.getNumberOfActivities() << std::endl;
 }

@@ -6,7 +6,7 @@ std::string TRAININGINSTANCE::getType()
     return m_type;
 }
 
-int TRAININGINSTANCE::getDuration()
+double TRAININGINSTANCE::getDuration()
 {
     return m_duration;
 }
@@ -17,7 +17,7 @@ void TRAININGINSTANCE::setType(std::string type)
     m_type = type;
 }
 
-void TRAININGINSTANCE::setDuration(int duration)
+void TRAININGINSTANCE::setDuration(double duration)
 {
     m_duration = duration;
 }
