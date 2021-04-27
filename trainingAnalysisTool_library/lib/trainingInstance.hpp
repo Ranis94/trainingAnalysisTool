@@ -10,6 +10,7 @@ class TRAININGINSTANCE
         std::string m_type = "";
         //Add date and time of training as well -> weekday and week number as well. For other purposes later
         bool m_cadenceUsed{false}; // Set as false, changed to true from sub classes which has cadence as a value
+        //add something to separate for cycling as well
 
     public:
         TRAININGINSTANCE(std::string type, double duration)

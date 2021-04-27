@@ -1,5 +1,6 @@
 #include "trainingInstance.hpp"
 #include "running.hpp"
+#include "cycling.hpp"
 #include "trainingArray.hpp"
 
 #include <iostream>
@@ -32,7 +33,7 @@ int main()
     heartZonesRun2.insert(std::make_pair("zone4", 10));
     heartZonesRun2.insert(std::make_pair("zone5", 10));
 
-        // --- Run 2
+    // --- Run 3
     std::string run3 = "run";
     int durationRun3 = 50;
     double cadanceRun3 = 180;
@@ -43,13 +44,24 @@ int main()
     heartZonesRun3.insert(std::make_pair("zone4", 20));
     heartZonesRun3.insert(std::make_pair("zone5", 20));
 
-    
+    // --- Cycling 1
+    std::string cycling1 = "run";
+    int durationCycling1 = 50;
+    double revolutionSpeed1 = 180;
+
+    // --- Cycling 2
+    std::string cycling2 = "run";
+    int durationCycling2 = 50;
+    double revolutionSpeed2 = 180;
+
     std::cout << "map: " << heartZonesRun3["zone1"] << std::endl;
 
     TRAININGARRAY onlyRunning;
     onlyRunning.addRunningInstance(run1, durationRun1, cadanceRun1, heartZonesRun1);
     onlyRunning.addRunningInstance(run2, durationRun2, cadanceRun2, heartZonesRun2);
     onlyRunning.addRunningInstance(run3, durationRun3, cadanceRun3, heartZonesRun3);
+    onlyRunning.addCyclingInstance(cycling1, durationCycling1, revolutionSpeed1);
+    onlyRunning.addCyclingInstance(cycling2, durationCycling2, revolutionSpeed2);
 
 
     // Test dur
@@ -61,7 +73,7 @@ int main()
     std::cout << "totDur: " << onlyRunning.getTotalCadence() << std::endl;
 
     // Test time in zone
-    std::cout << "Time in Zone1: " << onlyRunning.getTotalTimeSpentZone("zon1") << std::endl;
+    std::cout << "Time in Zone1: " << onlyRunning.getTotalTimeSpentZone("zone1") << std::endl;
 
     // Test number of activities
     std::cout << "Number of activities: " << onlyRunning.getNumberOfActivities() << std::endl;

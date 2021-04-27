@@ -3,6 +3,7 @@
 
 #include "trainingInstance.hpp"
 #include "running.hpp"
+#include "cycling.hpp"
 
 #include <vector>
 #include <algorithm>
@@ -24,6 +25,7 @@ class TRAININGARRAY
 
     //How to treat new training forms, create separate vector for each type(to access methods for sub classes) or have sub classes of TRAININGARRAY with those containers??
     void addRunningInstance(std::string type, int duration, double cadence, std::map<std::string, double> heartRateZones);
+    void addCyclingInstance(std::string type, int duration, double revolutionSpeed);
 
     double getAverageDuration();
     double getTotalDuration();

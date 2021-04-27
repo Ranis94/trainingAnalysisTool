@@ -8,6 +8,10 @@ void TRAININGARRAY::addRunningInstance(std::string type, int duration, double ca
     m_trainingInstances.push_back(std::make_shared<RUNNING>(type, duration, cadence, heartRateZones));
 }
 
+void TRAININGARRAY::addCyclingInstance(std::string type, int duration, double revolutionSpeed)
+{
+    m_trainingInstances.push_back(std::make_shared<CYCLING>(type, duration, revolutionSpeed));
+}
 
 double TRAININGARRAY::getTotalDuration()
 {
