@@ -21,3 +21,8 @@ void TRAININGINSTANCE::setDuration(double duration)
 {
     m_duration = duration;
 }
+
+void TRAININGINSTANCE::setCadenceUsedTrue()
+{
+    m_cadenceUsed = true;
+}
