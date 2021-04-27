@@ -11,6 +11,11 @@ double TRAININGINSTANCE::getDuration()
     return m_duration;
 }
 
+bool TRAININGINSTANCE::getCadenceUsed()
+{
+    return m_cadenceUsed;
+}
+
 // SETTERS
 void TRAININGINSTANCE::setType(std::string type)
 {

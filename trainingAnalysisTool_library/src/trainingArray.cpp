@@ -37,10 +37,7 @@ double TRAININGARRAY::getTotalCadence()
 
     for(auto it = m_trainingInstances.begin(); it != m_trainingInstances.end(); ++it)
     {
-        if ((*it)->getType == "run")
-        {
-            totalCadence += (*it)->getCadence();
-        }
+        totalCadence += (*it)->getCadence();
     }
 
     return totalCadence;
@@ -50,7 +47,7 @@ double TRAININGARRAY::getAverageCadence()
 {
     double averageCadence{0};
     
-    averageCadence = getTotalCadence() / m_trainingInstances.size();
+    averageCadence = getTotalCadence() / getNumberOfActivitiesWithCadence();
     //add method which finds number of entries with cadenceUsed == true -> use std count_if -> use lamda
 
     return averageCadence;
@@ -61,14 +58,28 @@ int TRAININGARRAY::getNumberOfActivities()
     return  m_trainingInstances.size();
 }
 
-double TRAININGARRAY::getTotalTimeSpentZone1()
+/*
+Method which returns number of activities in m_trainingInstances which uses cadence
+*/
+int TRAININGARRAY::getNumberOfActivitiesWithCadence()
 {
-    double totalTimeZone1{0};
+    //[numberOfActivitiesWithCadence](int i){return i* % 2 == 0;}
+    auto checkCadenceLambda = [] (auto elem)->bool {return ((*elem).getCadenceUsed() == true);};
+
+    // pass index to lambda
+     int numberOfActivitiesWithCadence = std::count_if(m_trainingInstances.begin(), m_trainingInstances.end(), checkCadenceLambda);
+
+    return numberOfActivitiesWithCadence;
+}
+
+double TRAININGARRAY::getTotalTimeSpentZone(std::string zone)
+{
+    double totalTimeZone{0};
 
     for(std::vector<std::shared_ptr<TRAININGINSTANCE>>::iterator it = m_trainingInstances.begin(); it != m_trainingInstances.end(); ++it)
     {
-        totalTimeZone1 += (*it)->getZone1();
+        totalTimeZone += (*it)->getZone(zone);
     }
 
-    return totalTimeZone1;
+    return totalTimeZone;
 }

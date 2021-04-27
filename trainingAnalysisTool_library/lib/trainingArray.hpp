@@ -5,6 +5,7 @@
 #include "running.hpp"
 
 #include <vector>
+#include <algorithm>
 #include <iostream>
 #include <memory>
 #include <map>
@@ -28,10 +29,11 @@ class TRAININGARRAY
     double getTotalDuration();
     double getAverageCadence();
     double getTotalCadence();
+    int getNumberOfActivitiesWithCadence();
     int getNumberOfActivities();
 
     //Heart zone function, can I use input to not have to have 5 identical methods?
-    double getTotalTimeSpentZone1();
+    double getTotalTimeSpentZone(std::string zone);
 
     // Getters which uses date / week to decide what members in m_trainingInstances to use, for example
     double getWeeklyTimeSpentZone1(); //most likely some input to this function used to check corresponding member in RUNNING... will see

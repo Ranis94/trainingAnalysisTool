@@ -27,7 +27,7 @@ class TRAININGINSTANCE
         virtual void setCadenceUsedTrue();
 
         virtual double getCadence() = 0; //Makes class abstract, good since I never want to create TRAINININSTANCE object
-        virtual double getZone1() = 0;
+        virtual double getZone(std::string zone) = 0;
 
 };
 #endif

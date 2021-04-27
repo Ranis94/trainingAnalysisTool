@@ -61,8 +61,10 @@ int main()
     std::cout << "totDur: " << onlyRunning.getTotalCadence() << std::endl;
 
     // Test time in zone
-    std::cout << "Time in Zone1: " << onlyRunning.getTotalTimeSpentZone1() << std::endl;
+    std::cout << "Time in Zone1: " << onlyRunning.getTotalTimeSpentZone("zon1") << std::endl;
 
     // Test number of activities
     std::cout << "Number of activities: " << onlyRunning.getNumberOfActivities() << std::endl;
+    std::cout << "Number of activities with cadence: " << onlyRunning.getNumberOfActivitiesWithCadence() << std::endl;
+
 }
