@@ -10,6 +10,7 @@ class RUNNING : public TRAININGINSTANCE
 {
     private:
         double m_cadance;
+        bool cadenceUsed{true}; //class CYCLING bool cadenceUsed{false}; -> exist in base class, set in sub class
         std::map<std::string, double> m_heartRateZones; //Might not be private to RUNNING if I add more subclasses which uses heart rate zones
 
     public:
@@ -20,11 +21,7 @@ class RUNNING : public TRAININGINSTANCE
 
         //Is there really need for map and double getters...
         std::map<std::string, double> getHeartRateZones();
-        double getZone1();
-        double getZone2();
-        double getZone3();
-        double getZone4();
-        double getZone5();        
+        double getZone(std::string zone);        
 
         // Might be unnecessary with setters, because after object is instanciated these should not change... I think
         void setCadence(double cadence);

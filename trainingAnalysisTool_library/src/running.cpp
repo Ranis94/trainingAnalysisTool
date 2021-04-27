@@ -11,30 +11,12 @@ std::map<std::string, double> RUNNING::getHeartRateZones()
     return m_heartRateZones;
 }
 
-double RUNNING::getZone1()
+double RUNNING::getZone(std::string zone)
 {
-    return m_heartRateZones["zone1"];
+    // add check that zone exists
+    return m_heartRateZones[zone];
 }
 
-double RUNNING::getZone2()
-{
-    return m_heartRateZones["zone2"];
-}
-
-double RUNNING::getZone3()
-{
-    return m_heartRateZones["zone3"];
-}
-
-double RUNNING::getZone4()
-{
-    return m_heartRateZones["zone4"];
-}
-
-double RUNNING::getZone5()
-{
-    return m_heartRateZones["zone5"];
-}
 
 // SETTERS
 void RUNNING::setCadence(double cadence)

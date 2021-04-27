@@ -13,7 +13,7 @@ class TRAININGARRAY
 {
     //(*this)[0]
     private:
-        std::vector<std::shared_ptr<RUNNING>> m_trainingInstances;
+        std::vector<std::shared_ptr<TRAININGINSTANCE>> m_trainingInstances;
     
     public:
     TRAININGARRAY()

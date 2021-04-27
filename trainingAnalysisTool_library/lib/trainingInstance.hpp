@@ -18,8 +18,11 @@ class TRAININGINSTANCE
         double getDuration();
 
         // Might be unnecessary with setters, because after object is instanciated these should not change... I think
-        virtual void setType(std::string type);
+        virtual void setType(std::string type); //might change to protected instead....
         virtual void setDuration(double duration);
+
+        virtual double getCadence() = 0; //Makes class abstract, good since I never want to create TRAINININSTANCE object
+        virtual double getZone1() = 0;
 
 };
 #endif

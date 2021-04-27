@@ -13,7 +13,7 @@ double TRAININGARRAY::getTotalDuration()
 {
     double totalDuration{0};
 
-    for(std::vector<std::shared_ptr<RUNNING>>::iterator it = m_trainingInstances.begin(); it != m_trainingInstances.end(); ++it)
+    for(auto it = m_trainingInstances.begin(); it != m_trainingInstances.end(); ++it)
     {
         totalDuration += (*it)->getDuration();
     }
@@ -35,9 +35,12 @@ double TRAININGARRAY::getTotalCadence()
 {
     double totalCadence{0};
 
-    for(std::vector<std::shared_ptr<RUNNING>>::iterator it = m_trainingInstances.begin(); it != m_trainingInstances.end(); ++it)
+    for(auto it = m_trainingInstances.begin(); it != m_trainingInstances.end(); ++it)
     {
-        totalCadence += (*it)->getCadence();
+        if ((*it)->getType == "run")
+        {
+            totalCadence += (*it)->getCadence();
+        }
     }
 
     return totalCadence;
@@ -48,6 +51,7 @@ double TRAININGARRAY::getAverageCadence()
     double averageCadence{0};
     
     averageCadence = getTotalCadence() / m_trainingInstances.size();
+    //add method which finds number of entries with cadenceUsed == true -> use std count_if -> use lamda
 
     return averageCadence;
 }
@@ -61,7 +65,7 @@ double TRAININGARRAY::getTotalTimeSpentZone1()
 {
     double totalTimeZone1{0};
 
-    for(std::vector<std::shared_ptr<RUNNING>>::iterator it = m_trainingInstances.begin(); it != m_trainingInstances.end(); ++it)
+    for(std::vector<std::shared_ptr<TRAININGINSTANCE>>::iterator it = m_trainingInstances.begin(); it != m_trainingInstances.end(); ++it)
     {
         totalTimeZone1 += (*it)->getZone1();
     }
