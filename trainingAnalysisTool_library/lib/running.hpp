@@ -13,8 +13,8 @@ class RUNNING : public TRAININGINSTANCE
         std::map<std::string, double> m_heartRateZones; //Might not be private to RUNNING if I add more subclasses which uses heart rate zones
 
     public:
-        RUNNING(std::string type, int duration, double cadence, std::map<std::string, double> heartRateZones)
-            : TRAININGINSTANCE{type, duration}, m_cadance{cadence}, m_heartRateZones{heartRateZones}{TRAININGINSTANCE::setCadenceUsedTrue();} 
+        RUNNING(std::string type, double duration, double week, double cadence, std::map<std::string, double> heartRateZones)
+            : TRAININGINSTANCE{type, duration, week}, m_cadance{cadence}, m_heartRateZones{heartRateZones}{TRAININGINSTANCE::setCadenceUsedTrue();} 
 
         double getCadence();
 

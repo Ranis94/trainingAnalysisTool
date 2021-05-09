@@ -24,8 +24,8 @@ class TRAININGARRAY
     }
 
     //How to treat new training forms, create separate vector for each type(to access methods for sub classes) or have sub classes of TRAININGARRAY with those containers??
-    void addRunningInstance(std::string type, int duration, double cadence, std::map<std::string, double> heartRateZones);
-    void addCyclingInstance(std::string type, int duration, double revolutionSpeed);
+    void addRunningInstance(std::string type, double duration, double week, double cadence, std::map<std::string, double> heartRateZones);
+    void addCyclingInstance(std::string type, double duration, double week, double revolutionSpeed);
 
     double getAverageDuration();
     double getTotalDuration();
@@ -34,7 +34,6 @@ class TRAININGARRAY
     int getNumberOfActivitiesWithCadence();
     int getNumberOfActivities();
 
-    //Heart zone function, can I use input to not have to have 5 identical methods?
     double getTotalTimeSpentZone(std::string zone);
 
     // Getters which uses date / week to decide what members in m_trainingInstances to use, for example
