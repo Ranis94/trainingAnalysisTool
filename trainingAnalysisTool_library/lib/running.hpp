@@ -14,7 +14,11 @@ class RUNNING : public TRAININGINSTANCE
 
     public:
         RUNNING(std::string type, double duration, double week, double cadence, std::map<std::string, double> heartRateZones)
-            : TRAININGINSTANCE{type, duration, week}, m_cadance{cadence}, m_heartRateZones{heartRateZones}{TRAININGINSTANCE::setCadenceUsedTrue();} 
+            : TRAININGINSTANCE{type, duration, week}, m_cadance{cadence}, m_heartRateZones{heartRateZones}
+            {
+                TRAININGINSTANCE::setCadenceUsedTrue();
+                TRAININGINSTANCE::setRunningTrue();
+            } 
 
         double getCadence();
 

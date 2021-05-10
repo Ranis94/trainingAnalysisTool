@@ -31,3 +31,8 @@ void TRAININGINSTANCE::setCadenceUsedTrue()
 {
     m_cadenceUsed = true;
 }
+
+void TRAININGINSTANCE::setRunningTrue()
+{
+    m_running = true;
+}

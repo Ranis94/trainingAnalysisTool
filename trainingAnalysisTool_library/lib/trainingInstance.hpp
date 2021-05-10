@@ -11,6 +11,7 @@ class TRAININGINSTANCE
         double m_week;
         //Add date and time of training as well -> weekday and week number as well. For other purposes later
         bool m_cadenceUsed{false}; // Set as false, changed to true from sub classes which has cadence as a value
+        bool m_running{false}; // Set as false, changed to true from sub class RUNNING
         //add something to separate for cycling as well
 
     public:
@@ -29,6 +30,7 @@ class TRAININGINSTANCE
 
         // Method for sub classes to change m_cadenceUsed to true
         virtual void setCadenceUsedTrue();
+        virtual void setRunningTrue();
 
         virtual double getCadence() = 0; //Makes class abstract, good since I never want to create TRAINININSTANCE object
         virtual double getZone(std::string zone) = 0;
