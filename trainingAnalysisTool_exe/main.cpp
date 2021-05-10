@@ -18,9 +18,8 @@
 void getTestInputWithOnlyRun()
 {
     TRAININGARRAY onlyRunning;
-    std::cout << "Good here" << std::endl;
-    std::ifstream myFile("C:\\Users\\A560292\\OneDrive - AF\\vsCode\\c++\\trainingAnalysisTool\\trainingData.csv");
-    std::cout << "Good here?" << std::endl;
+    std::ifstream myFile("C:\\Users\\A560292\\OneDrive - AF\\vsCode\\c++\\trainingAnalysisTool\\data.txt");
+
     // Make sure the file is open
     if(!myFile.is_open()) 
     {
@@ -30,27 +29,23 @@ void getTestInputWithOnlyRun()
 
     // Helper vars
     std::string line;
-    double val;
-    std::cout << "Good here??" << std::endl;
+    std::string colname;
+    std::string val = "";
 
     // Read data, line by line
     while(std::getline(myFile, line))
     {
-        std::cout << "Good here???" << std::endl;
         std::vector<double> result;
 
         // Create a stringstream of the current line
         std::stringstream ss(line);
-        std::cout << "Good here????" << std::endl;
-        // Extract each double, for each run
-        while(ss >> val)
-        {    
-            // Add the current double to the 'colIdx' column's values vector
-            std::cout << "push it" << std::endl;
-            result.push_back(val);
+        
+        //Get string in current line until ";" and store in val
+        while (std::getline(ss, val, ';'))
+        {
+            result.push_back(stod(val));
         }
 
-        std::cout << "access data" << std::endl;
         std::string run = "run";
         double durationRun = result[1];
         double cadanceRun = result[2];
@@ -62,11 +57,10 @@ void getTestInputWithOnlyRun()
         heartZonesRun.insert(std::make_pair("zone4", result[6]));
         heartZonesRun.insert(std::make_pair("zone5", result[7]));
 
-        std::cout << durationRun << std::endl;
-
         onlyRunning.addRunningInstance(run, durationRun, weekRun, cadanceRun, heartZonesRun);
 
-        onlyRunning.getNumberOfActivities();
+        std::cout << "Number of activities: " << onlyRunning.getNumberOfActivities() << std::endl;
+        std::cout << "Time spent in Zone1: " << onlyRunning.getTotalTimeSpentZone("zone1") << std::endl;
 
     }
     // Close file
