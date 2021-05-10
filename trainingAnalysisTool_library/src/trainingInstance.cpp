@@ -11,6 +11,11 @@ double TRAININGINSTANCE::getDuration()
     return m_duration;
 }
 
+double TRAININGINSTANCE::getWeek()
+{
+    return m_week;
+}
+
 bool TRAININGINSTANCE::getCadenceUsed()
 {
     return m_cadenceUsed;

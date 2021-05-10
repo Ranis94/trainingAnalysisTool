@@ -21,6 +21,7 @@ class TRAININGINSTANCE
 
         std::string getType();
         double getDuration();
+        double getWeek();
         bool getCadenceUsed();
 
         // Might be unnecessary with setters, because after object is instanciated these should not change... I think
