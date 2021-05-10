@@ -36,9 +36,10 @@ class TRAININGARRAY
 
     double getTotalTimeSpentZone(std::string zone);
 
-    // Getters which uses date / week to decide what members in m_trainingInstances to use, for example
-    double getWeeklyTimeSpentZone1(); //most likely some input to this function used to check corresponding member in RUNNING... will see
-    std::vector<double> displayWeeklyTimeSpentZone1();
+    // These methods should most likely be usefull to analyse my running
+    std::map<std::string, double> getWeeklyTimeSpentInZones(double week, std::string type); //Get time spent in each zone for a GIVEN week and activity
+    double getWeeklyTime(double week, std::string type); //Get total time for GIVEN week and activity
+    void displayZoneData(std::string type); //Print out W# : Total time: # Zone1: #% ....
 
 };
 #endif
