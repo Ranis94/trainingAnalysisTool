@@ -13,7 +13,7 @@ class CYCLING : public TRAININGINSTANCE
         double m_revolutionSpeed;
 
     public:
-        CYCLING(std::string type, double duration, double week, double revolutionSpeed)
+        CYCLING(std::string type, double duration, int week, double revolutionSpeed)
             : TRAININGINSTANCE{type, duration, week}, m_revolutionSpeed{revolutionSpeed}{}       
 
         //Deperate try to get code to compile

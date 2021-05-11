@@ -11,7 +11,7 @@ double TRAININGINSTANCE::getDuration()
     return m_duration;
 }
 
-double TRAININGINSTANCE::getWeek()
+int TRAININGINSTANCE::getWeek()
 {
     return m_week;
 }
@@ -19,6 +19,11 @@ double TRAININGINSTANCE::getWeek()
 bool TRAININGINSTANCE::getCadenceUsed()
 {
     return m_cadenceUsed;
+}
+
+bool TRAININGINSTANCE::getRunningTrue()
+{
+    return m_running;
 }
 
 // SETTERS

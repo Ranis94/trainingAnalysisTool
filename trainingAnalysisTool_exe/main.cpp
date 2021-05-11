@@ -49,7 +49,7 @@ void getTestInputWithOnlyRun()
         std::string run = "run";
         double durationRun = result[1];
         double cadanceRun = result[2];
-        double weekRun = result[0];
+        int weekRun = result[0];
         std::map<std::string, double> heartZonesRun;
         heartZonesRun.insert(std::make_pair("zone1", result[3]));
         heartZonesRun.insert(std::make_pair("zone2", result[4]));
@@ -65,6 +65,11 @@ void getTestInputWithOnlyRun()
     }
     // Close file
     myFile.close();
+
+    std::cout << "here" << std::endl;
+    std::cout << "getLatestWeek: " << onlyRunning.getLatestWeek() << std::endl;
+    std::cout << "getOldestWeek: " << onlyRunning.getOldestWeek() << std::endl;
+    onlyRunning.displayZoneData("running");
 }
 
 
