@@ -14,7 +14,7 @@
 class TRAININGARRAY
 {
     private:
-        std::vector<std::shared_ptr<TRAININGINSTANCE>> m_trainingInstances;
+        std::vector<std::shared_ptr<TRAININGINSTANCE>> m_trainingInstances; //dynamic cast
         int m_latestWeek;
         int m_oldestWeek;
 

@@ -151,6 +151,8 @@ double TRAININGARRAY::getWeeklyTime(int week, std::string type)
     if (type == "running")
     {
         std::cout << "case running" << std::endl;
+
+        //Change getRunningTrue() to dynamic cast, if succeeded you know it's of correct type
         auto checkRunningGetTimeLambda = [&weeklyTime, week] (auto elem) {
             if(((*elem).getRunningTrue() == true) && ((*elem).getWeek() == week)){
                 weeklyTime += (*elem).getDuration();
