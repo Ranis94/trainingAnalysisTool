@@ -30,7 +30,7 @@ class TRAININGARRAY
     void addRunningInstance(std::string type, double duration, int week, double cadence, std::map<std::string, double> heartRateZones);
     void addCyclingInstance(std::string type, double duration, int week, double revolutionSpeed);
 
-    //Getters: general
+    //Getters: general, as it is now not sure if any of these are really interesting...
     double getAverageDuration();
     double getTotalDuration();
     double getAverageCadence();
@@ -38,15 +38,18 @@ class TRAININGARRAY
     int getNumberOfActivities();
     int getLatestWeek();
     int getOldestWeek();
-    double getTotalTimeSpentZone(std::string zone); // This is really
+    double getTotalTimeSpentZone(std::string zone);
     int getNumberOfActivitiesWithCadence();
 
     //Getters: specified by week and type
     std::map<std::string, double> getWeeklyTimeSpentInZones(int week, std::string type); //Get time spent in each zone for a GIVEN week and activity
+    std::map<std::string, double> getPercentageSpentInZones(std::map<std::string, double> WeeklyTimeSpentInZones, double weeklyTime); //Get percentage spent in each zone
     double getWeeklyTime(int week, std::string type); //Get total time for GIVEN week and activity
 
     //Displayers
     void displayZoneData(std::string type); //Print out W# : Total time: # Zone1: #% ....  , add second input to decide how many weeks to show?
+    void displayDistanceData(std::string type); //TBA
+    void displayCadenceData(std::string type); //TBA
 
 };
 #endif

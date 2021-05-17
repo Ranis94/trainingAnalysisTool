@@ -35,6 +35,119 @@ void TRAININGARRAY::updateWeeks(int week)
 
 }
 
+
+//---------------------display data and methods they use---------------------------
+
+void TRAININGARRAY::displayZoneData(std::string type)
+{
+    int week;
+    double weeklyTime;
+    std::map<std::string, double> weeklyTimeInZones;
+    std::map<std::string, double> percentageInZones;
+
+    // For now this is enough, will need to add loop for year as well, just another for loop
+    for (week = m_latestWeek; week >= m_oldestWeek;  --week)
+    {
+        weeklyTime = getWeeklyTime(week, type); // Get time spent for activity "type" during week "week"
+        weeklyTimeInZones = getWeeklyTimeSpentInZones(week, type); // Get time spent in HR zones for activity "type" during week "week"
+        percentageInZones = getPercentageSpentInZones(weeklyTimeInZones, weeklyTime);
+        
+        //Could add check on percentageInZones to see if zone4 and zone5 is > than 20%
+
+        // Add number of trainings of type for given week(pass by reference to getWeeklyTime() and change from std:for_each to numTrainigns = std::count_if )?
+        std::cout << "Week: " << week << ", total time " << type << ": " << weeklyTime << ", time in zone1: " << weeklyTimeInZones["zone1"] << "(" << percentageInZones["percentageZone1"] << "%)" <<std::endl;
+    }
+}
+
+std::map<std::string, double> TRAININGARRAY::getPercentageSpentInZones(std::map<std::string, double> WeeklyTimeSpentInZones, double weeklyTime)
+{
+    std::map<std::string, double> weeklyPercentageSpentInZones;
+    double weeklyPercentageInZone1 = WeeklyTimeSpentInZones["zone1"] / weeklyTime * 100;
+    double weeklyPercentageInZone2 = WeeklyTimeSpentInZones["zone2"] / weeklyTime * 100;
+    double weeklyPercentageInZone3 = WeeklyTimeSpentInZones["zone3"] / weeklyTime * 100;
+    double weeklyPercentageInZone4 = WeeklyTimeSpentInZones["zone4"] / weeklyTime * 100;
+    double weeklyPercentageInZone5 = WeeklyTimeSpentInZones["zone5"] / weeklyTime * 100;
+
+    weeklyPercentageSpentInZones.insert(std::make_pair("percentageZone1", weeklyPercentageInZone1));
+    weeklyPercentageSpentInZones.insert(std::make_pair("percentageZone2", weeklyPercentageInZone2));
+    weeklyPercentageSpentInZones.insert(std::make_pair("percentageZone3", weeklyPercentageInZone3));
+    weeklyPercentageSpentInZones.insert(std::make_pair("percentageZone4", weeklyPercentageInZone4));
+    weeklyPercentageSpentInZones.insert(std::make_pair("percentageZone5", weeklyPercentageInZone5));
+
+    return weeklyPercentageSpentInZones;
+}
+
+std::map<std::string, double> TRAININGARRAY::getWeeklyTimeSpentInZones(int week, std::string type)
+{
+    std::map<std::string, double> weeklyTimeSpentInZones;
+    double weeklyTimeInZone1{0};
+    double weeklyTimeInZone2{0};
+    double weeklyTimeInZone3{0};
+    double weeklyTimeInZone4{0};
+    double weeklyTimeInZone5{0};
+
+    //Switch case to create different lambdas for different types 
+    if (type == "running")
+    {
+        //Change getRunningTrue() to dynamic cast, if succeeded you know it's of correct type
+        //Can getHeartRateZones() be used instead??
+        auto checkRunningGetTimeInZoneLambda = [&weeklyTimeInZone1, &weeklyTimeInZone2, &weeklyTimeInZone3, &weeklyTimeInZone4 , &weeklyTimeInZone5, week] (auto elem) {
+            if(((*elem).getRunningTrue() == true) && ((*elem).getWeek() == week)){
+                weeklyTimeInZone1 += (*elem).getZone("zone1");
+                weeklyTimeInZone2 += (*elem).getZone("zone2");
+                weeklyTimeInZone3 += (*elem).getZone("zone3");
+                weeklyTimeInZone4 += (*elem).getZone("zone4");
+                weeklyTimeInZone5 += (*elem).getZone("zone5");
+            }
+        };
+
+        std::for_each(m_trainingInstances.begin(), m_trainingInstances.end(), checkRunningGetTimeInZoneLambda);
+    }
+    else
+    {
+        std::cout << "No matching types found" << std::endl;
+    }
+
+    weeklyTimeSpentInZones.insert(std::make_pair("zone1", weeklyTimeInZone1));
+    weeklyTimeSpentInZones.insert(std::make_pair("zone2", weeklyTimeInZone2));
+    weeklyTimeSpentInZones.insert(std::make_pair("zone3", weeklyTimeInZone3));
+    weeklyTimeSpentInZones.insert(std::make_pair("zone4", weeklyTimeInZone4));
+    weeklyTimeSpentInZones.insert(std::make_pair("zone5", weeklyTimeInZone5));
+
+    return weeklyTimeSpentInZones;
+}
+
+double TRAININGARRAY::getWeeklyTime(int week, std::string type)
+{
+    double weeklyTime{0};
+
+    //Instead of  switching over types here, creat void function which takes type, &weeklyTime, week and instance of run as input and call that function from std::for_each()
+
+    //Switch case to create different lambdas for different types 
+    if (type == "running")
+    {
+        //Change getRunningTrue() to dynamic cast, if succeeded you know it's of correct type
+        auto checkRunningGetTimeLambda = [&weeklyTime, week] (auto elem) {
+            if(((*elem).getRunningTrue() == true) && ((*elem).getWeek() == week)){
+                weeklyTime += (*elem).getDuration();
+            }
+        };
+
+        std::for_each(m_trainingInstances.begin(), m_trainingInstances.end(), checkRunningGetTimeLambda);
+    }
+    else
+    {
+        std::cout << "No matching types found" << std::endl;
+    }
+
+    return weeklyTime;
+}
+
+
+
+
+//---------------------Are these even interesting??---------------------------
+
 double TRAININGARRAY::getTotalDuration()
 {
     double totalDuration{0};
@@ -118,53 +231,4 @@ int TRAININGARRAY::getLatestWeek()
 int TRAININGARRAY::getOldestWeek()
 {
     return m_oldestWeek;
-}
-
-void TRAININGARRAY::displayZoneData(std::string type)
-{
-    int week;
-    double weeklyTime;
-     std::map<std::string, double> weeklyTimeInZones;
-
-    // For now this is enough, will need to add loop for year as well, just another for loop
-    for (week = m_latestWeek; week >= m_oldestWeek;  --week)
-    {
-        std::cout << "week in loop: " << week << std::endl;
-        weeklyTime = getWeeklyTime(week, type); // Get time spent for activity "type" during week "week"
-        //weeklyTimeInZones = getWeeklyTimeSpentInZones(week, type); // Get time spent in HR zones for activity "type" during week "week"
-
-        // Add printout W# : Total time: # Zone1: #% ....
-        std::cout << "Week: " << week << ", total time: " << weeklyTime << std::endl;
-    }
-}
-
-// std::map<std::string, double> TRAININGARRAY::getWeeklyTimeSpentInZones(int week, std::string type)
-// {
-
-// }
-
-double TRAININGARRAY::getWeeklyTime(int week, std::string type)
-{
-    double weeklyTime{0};
-
-    //Switch case to create different lambdas for different types 
-    if (type == "running")
-    {
-        std::cout << "case running" << std::endl;
-
-        //Change getRunningTrue() to dynamic cast, if succeeded you know it's of correct type
-        auto checkRunningGetTimeLambda = [&weeklyTime, week] (auto elem) {
-            if(((*elem).getRunningTrue() == true) && ((*elem).getWeek() == week)){
-                weeklyTime += (*elem).getDuration();
-            }
-        };
-
-        std::for_each(m_trainingInstances.begin(), m_trainingInstances.end(), checkRunningGetTimeLambda);
-    }
-    else
-    {
-        std::cout << "No matching types found" << std::endl;
-    }
-
-    return weeklyTime;
 }

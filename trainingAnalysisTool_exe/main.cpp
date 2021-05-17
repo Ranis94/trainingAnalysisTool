@@ -65,8 +65,7 @@ void getTestInputWithOnlyRun()
     }
     // Close file
     myFile.close();
-
-    std::cout << "here" << std::endl;
+    
     std::cout << "getLatestWeek: " << onlyRunning.getLatestWeek() << std::endl;
     std::cout << "getOldestWeek: " << onlyRunning.getOldestWeek() << std::endl;
     onlyRunning.displayZoneData("running");
