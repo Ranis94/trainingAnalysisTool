@@ -13,12 +13,18 @@
 
 //TODO: Add method which finds (using dynamic casting) what traing type an instance is
 //TODO: Add method which extract longest run each week and gives inc between weeks
+
+//TODO: Should one instance of TRAININGARRAY only have one type of activity? IF SO, add m_type and then cast first added instance until a match is found. When
+//adding nore instance, check before adding, that they are of same type?
+
+
 class TRAININGARRAY
 {
     private:
         std::vector<std::shared_ptr<TRAININGINSTANCE>> m_trainingInstances; //dynamic cast
         int m_latestWeek;
         int m_oldestWeek;
+        int makePercentage{100};
 
         void updateWeeks(int week); //Private method to keep track of m_latestWeek and m_oldestWeek of activities in m_trainingInstances
     
@@ -38,6 +44,7 @@ class TRAININGARRAY
     std::map<std::string, double> getPercentageSpentInZones(std::map<std::string, double> WeeklyTimeSpentInZones, double weeklyTime); //Get percentage spent in each zone
     double getWeeklyTime(int week, std::string type); //Get total time for given week and activity
     double getWeeklyDistance(int week, std::string type); //Get total distance for given week and activity
+    double getPercentualDistanceIncrease(double currentDistance, double previousDistance);
 
     //Displayers
     void displayZoneData(std::string type);

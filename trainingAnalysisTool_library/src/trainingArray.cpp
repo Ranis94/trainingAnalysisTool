@@ -85,19 +85,34 @@ void TRAININGARRAY::displayZoneData(std::string type)
  *
  * TODO: add optional argument to set how many weeks to display, by default loops all existing weeks
  * TODO: add loop / check for year as well
- * TODO: add check if increase is bigger than 10% in repect to previous week and print increase
+ * TODO: add check if increase is bigger than 10% in repect to previous week
  */
 void TRAININGARRAY::displayDistanceData(std::string type)
 {
     int week;
+    double oldDistance;
     double weeklyDistance;
+    double percentageIncrease;
 
     for (week = m_latestWeek; week >= m_oldestWeek;  --week)
     {
-        weeklyDistance = getWeeklyDistance(week, type);
+        if(week >= m_oldestWeek + 1)
+        {
+            oldDistance = getWeeklyDistance(week-1, type);
+            weeklyDistance = getWeeklyDistance(week, type);
+            percentageIncrease = getPercentualDistanceIncrease(weeklyDistance, oldDistance);
 
-        std::cout << "#-------#" << std::endl;
-        std::cout << "Week: " << week << ", total distance " << type << ": " << weeklyDistance << std::endl;
+            std::cout << "#-------#" << std::endl;
+            std::cout << "Week: " << week << ", total distance " << type << ": " << weeklyDistance 
+            << ", increase: " << percentageIncrease << "%" << std::endl;
+        }
+        else
+        {
+            weeklyDistance = getWeeklyDistance(week, type);
+            
+            std::cout << "#-------#" << std::endl;
+            std::cout << "Week: " << week << ", total distance " << type << ": " << weeklyDistance << std::endl;
+        }
     }
 }
 
@@ -211,12 +226,27 @@ double TRAININGARRAY::getWeeklyDistance(int week, std::string type)
 }
 
 /*
+ * Method to get percentual increase between current distance and previous distance.
+ * If previous distance is greater than current distance, return 0 % increase
+ */
+double TRAININGARRAY::getPercentualDistanceIncrease(double currentDistance, double previousDistance)
+{
+    double percentualIncrease{0};
+    
+    if (currentDistance >= previousDistance)
+    {
+        percentualIncrease = (currentDistance - previousDistance) / previousDistance * makePercentage;
+    }
+    
+    return percentualIncrease;
+}
+
+/*
  * Method that finds percentage spent in each heart rate zone given weekly time spent in each heart rate zone and
  * total weekly time.
  */
 std::map<std::string, double> TRAININGARRAY::getPercentageSpentInZones(std::map<std::string, double> WeeklyTimeSpentInZones, double weeklyTime)
 {
-    int makePercentage{100};
     std::map<std::string, double> weeklyPercentageSpentInZones;
 
     double weeklyPercentageInZone1 = WeeklyTimeSpentInZones["zone1"] / weeklyTime * makePercentage;
@@ -275,7 +305,6 @@ double TRAININGARRAY::getAverageCadence()
     double averageCadence{0};
     
     averageCadence = getTotalCadence() / getNumberOfActivitiesWithCadence();
-    //add method which finds number of entries with cadenceUsed == true -> use std count_if -> use lamda
 
     return averageCadence;
 }
@@ -290,10 +319,8 @@ Method which returns number of activities in m_trainingInstances which uses cade
 */
 int TRAININGARRAY::getNumberOfActivitiesWithCadence()
 {
-    //[numberOfActivitiesWithCadence](int i){return i* % 2 == 0;}
     auto checkCadenceLambda = [] (auto& elem)->bool {return (elem->getCadenceUsed() == true);};
 
-    // pass index to lambda
      int numberOfActivitiesWithCadence = std::count_if(m_trainingInstances.begin(), m_trainingInstances.end(), checkCadenceLambda);
 
     return numberOfActivitiesWithCadence;
