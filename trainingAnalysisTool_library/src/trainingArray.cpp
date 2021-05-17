@@ -4,9 +4,9 @@
  * Method to add a running instance to m_trainingInstances, calls method updateWeeks() in order to 
  * update m_latestWeek and m_oldestWeek according to content of vector
  */
-void TRAININGARRAY::addRunningInstance(std::string type, double duration, int week, double cadence, std::map<std::string, double> heartRateZones)
+void TRAININGARRAY::addRunningInstance(std::string type, double duration, double distance, int week, double cadence, std::map<std::string, double> heartRateZones)
 {
-    m_trainingInstances.push_back(std::make_shared<RUNNING>(type, duration, week, cadence, heartRateZones));
+    m_trainingInstances.push_back(std::make_shared<RUNNING>(type, duration, distance, week, cadence, heartRateZones));
     updateWeeks(week);
 }
 
@@ -14,9 +14,9 @@ void TRAININGARRAY::addRunningInstance(std::string type, double duration, int we
  * Method to add a cycling instance to m_trainingInstances, calls method updateWeeks() in order to 
  * update m_latestWeek and m_oldestWeek according to content of vector
  */
-void TRAININGARRAY::addCyclingInstance(std::string type, double duration, int week, double revolutionSpeed)
+void TRAININGARRAY::addCyclingInstance(std::string type, double duration, double distance, int week, double revolutionSpeed)
 {
-    m_trainingInstances.push_back(std::make_shared<CYCLING>(type, duration, week, revolutionSpeed));
+    m_trainingInstances.push_back(std::make_shared<CYCLING>(type, duration, distance, week, revolutionSpeed));
     updateWeeks(week);
 }
 
@@ -42,7 +42,6 @@ void TRAININGARRAY::updateWeeks(int week)
         }
     }
 }
-
 
 //---------------------display data and methods they use---------------------------
 
@@ -70,6 +69,7 @@ void TRAININGARRAY::displayZoneData(std::string type)
         weeklyTimeInZones = getWeeklyTimeSpentInZones(week, type);
         percentageInZones = getPercentageSpentInZones(weeklyTimeInZones, weeklyTime);
 
+        std::cout << "#-------#" << std::endl;
         std::cout << "Week: " << week << ", total time " << type << ": " << weeklyTime 
         << ", time in zone1: " << weeklyTimeInZones["zone1"] << "(" << percentageInZones["percentageZone1"] << "%)" 
         << ", time in zone2: " << weeklyTimeInZones["zone2"] << "(" << percentageInZones["percentageZone2"] << "%)" 
@@ -80,10 +80,32 @@ void TRAININGARRAY::displayZoneData(std::string type)
 }
 
 /*
+ * Method to display distance data for a given training type type on a weekly basis.
+ * Method loops through from m_latestWeek to m_oldestWeek and finds weekly total distance doing provided training type.
+ *
+ * TODO: add optional argument to set how many weeks to display, by default loops all existing weeks
+ * TODO: add loop / check for year as well
+ * TODO: add check if increase is bigger than 10% in repect to previous week and print increase
+ */
+void TRAININGARRAY::displayDistanceData(std::string type)
+{
+    int week;
+    double weeklyDistance;
+
+    for (week = m_latestWeek; week >= m_oldestWeek;  --week)
+    {
+        weeklyDistance = getWeeklyDistance(week, type);
+
+        std::cout << "#-------#" << std::endl;
+        std::cout << "Week: " << week << ", total distance " << type << ": " << weeklyDistance << std::endl;
+    }
+}
+
+/*
  * Method to get weekly time in each heart rate zone doing provided training type.
  *
  * TODO: Change getRunningTrue() to dynamic cast, if succeeded you know it's of correct type
- * TODO: Can getHeartRateZones() be used instead??
+ * TODO: Can getHeartRateZones() be used instead to decrease size of method? Maybe write an operation overload for +=
  */
 std::map<std::string, double> TRAININGARRAY::getWeeklyTimeSpentInZones(int week, std::string type)
 {
@@ -153,6 +175,39 @@ double TRAININGARRAY::getWeeklyTime(int week, std::string type)
     }
 
     return weeklyTime;
+}
+
+/*
+ * Method to get weekly distance doing provided training type.  
+ *
+ * TODO: Change getRunningTrue() to dynamic cast, if succeeded you know it's of correct type
+ * TODO: Add functionality for more training types than running
+ * TODO: (?) Instead of switching over types here, creat void function which takes type, &weeklyTime, week and instance of run as input and call that function from std::for_each()
+ */
+double TRAININGARRAY::getWeeklyDistance(int week, std::string type)
+{
+    double weeklyDistance{0};
+
+    if (type == "running")
+    {
+        auto checkRunningGetDistanceLambda = [&weeklyDistance, week] (auto& elem) {
+            if((elem->getRunningTrue() == true) && (elem->getWeek() == week)){
+                weeklyDistance += elem->getDistance();
+            }
+        };
+
+        std::for_each(m_trainingInstances.begin(), m_trainingInstances.end(), checkRunningGetDistanceLambda);
+    }
+    else if (type == "cycling")
+    {
+        //TBA
+    }
+    else
+    {
+        std::cout << "No matching types found" << std::endl;
+    }
+
+    return weeklyDistance;
 }
 
 /*

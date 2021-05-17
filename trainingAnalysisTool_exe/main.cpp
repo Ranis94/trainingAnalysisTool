@@ -49,6 +49,7 @@ void getTestInputWithOnlyRun()
         std::string run = "run";
         double durationRun = result[1];
         double cadanceRun = result[2];
+        double distanceRun = result[8];
         int weekRun = result[0];
         std::map<std::string, double> heartZonesRun;
         heartZonesRun.insert(std::make_pair("zone1", result[3]));
@@ -57,7 +58,7 @@ void getTestInputWithOnlyRun()
         heartZonesRun.insert(std::make_pair("zone4", result[6]));
         heartZonesRun.insert(std::make_pair("zone5", result[7]));
 
-        onlyRunning.addRunningInstance(run, durationRun, weekRun, cadanceRun, heartZonesRun);
+        onlyRunning.addRunningInstance(run, durationRun, distanceRun, weekRun, cadanceRun, heartZonesRun);
 
         std::cout << "Number of activities: " << onlyRunning.getNumberOfActivities() << std::endl;
         std::cout << "Time spent in Zone1: " << onlyRunning.getTotalTimeSpentZone("zone1") << std::endl;
@@ -69,6 +70,7 @@ void getTestInputWithOnlyRun()
     std::cout << "getLatestWeek: " << onlyRunning.getLatestWeek() << std::endl;
     std::cout << "getOldestWeek: " << onlyRunning.getOldestWeek() << std::endl;
     onlyRunning.displayZoneData("running");
+    onlyRunning.displayDistanceData("running");
 }
 
 

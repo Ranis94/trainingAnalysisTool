@@ -14,6 +14,7 @@ class TRAININGINSTANCE
 {
     private:
         double m_duration;
+        double m_distance;
         std::string m_type = ""; //Enum, then in getType() do dynamic casting to return correct type or not defined. Instanciate as "unclassified"
         int m_week;
         //Add date and time of training as well -> weekday and week number as well. For other purposes later
@@ -24,11 +25,12 @@ class TRAININGINSTANCE
 
     public:
         // week is only temporarily added
-        TRAININGINSTANCE(std::string type, double duration, int week)
-            : m_type{type}, m_duration{duration}, m_week{week}{}
+        TRAININGINSTANCE(std::string type, double duration, double distance, int week)
+            : m_type{type}, m_duration{duration}, m_distance{distance},m_week{week}{}
 
         std::string getType(); // do dynamic casting to return correct type or not defined, change m_type
         double getDuration();
+        double getDistance();
         int getWeek();
         bool getCadenceUsed();
         bool getRunningTrue(); //instead of bool, use enum and return training type

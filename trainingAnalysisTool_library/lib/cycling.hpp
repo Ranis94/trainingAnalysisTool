@@ -13,8 +13,8 @@ class CYCLING : public TRAININGINSTANCE
         double m_revolutionSpeed;
 
     public:
-        CYCLING(std::string type, double duration, int week, double revolutionSpeed)
-            : TRAININGINSTANCE{type, duration, week}, m_revolutionSpeed{revolutionSpeed}{}       
+        CYCLING(std::string type, double duration, double distance, int week, double revolutionSpeed)
+            : TRAININGINSTANCE{type, duration, distance,week}, m_revolutionSpeed{revolutionSpeed}{}       
 
         //Deperate try to get code to compile
         double getCadence()

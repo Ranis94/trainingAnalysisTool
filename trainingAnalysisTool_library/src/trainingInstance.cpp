@@ -11,6 +11,11 @@ double TRAININGINSTANCE::getDuration()
     return m_duration;
 }
 
+double TRAININGINSTANCE::getDistance()
+{
+    return m_distance;
+}
+
 int TRAININGINSTANCE::getWeek()
 {
     return m_week;
