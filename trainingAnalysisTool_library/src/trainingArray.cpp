@@ -91,13 +91,13 @@ std::map<std::string, double> TRAININGARRAY::getWeeklyTimeSpentInZones(int week,
     {
         //Change getRunningTrue() to dynamic cast, if succeeded you know it's of correct type
         //Can getHeartRateZones() be used instead??
-        auto checkRunningGetTimeInZoneLambda = [&weeklyTimeInZone1, &weeklyTimeInZone2, &weeklyTimeInZone3, &weeklyTimeInZone4 , &weeklyTimeInZone5, week] (auto elem) {
-            if(((*elem).getRunningTrue() == true) && ((*elem).getWeek() == week)){
-                weeklyTimeInZone1 += (*elem).getZone("zone1");
-                weeklyTimeInZone2 += (*elem).getZone("zone2");
-                weeklyTimeInZone3 += (*elem).getZone("zone3");
-                weeklyTimeInZone4 += (*elem).getZone("zone4");
-                weeklyTimeInZone5 += (*elem).getZone("zone5");
+        auto checkRunningGetTimeInZoneLambda = [&weeklyTimeInZone1, &weeklyTimeInZone2, &weeklyTimeInZone3, &weeklyTimeInZone4 , &weeklyTimeInZone5, week] (auto& elem) {
+            if((elem->getRunningTrue() == true) && (elem->getWeek() == week)){
+                weeklyTimeInZone1 += elem->getZone("zone1");
+                weeklyTimeInZone2 += elem->getZone("zone2");
+                weeklyTimeInZone3 += elem->getZone("zone3");
+                weeklyTimeInZone4 += elem->getZone("zone4");
+                weeklyTimeInZone5 += elem->getZone("zone5");
             }
         };
 
@@ -126,10 +126,11 @@ double TRAININGARRAY::getWeeklyTime(int week, std::string type)
     //Switch case to create different lambdas for different types 
     if (type == "running")
     {
+        //(auto& elem) för performance, sen skulle jag nog skippa att "dereference" pekarna och köra med -> istället 
         //Change getRunningTrue() to dynamic cast, if succeeded you know it's of correct type
-        auto checkRunningGetTimeLambda = [&weeklyTime, week] (auto elem) {
-            if(((*elem).getRunningTrue() == true) && ((*elem).getWeek() == week)){
-                weeklyTime += (*elem).getDuration();
+        auto checkRunningGetTimeLambda = [&weeklyTime, week] (auto& elem) {
+            if((elem->getRunningTrue() == true) && (elem->getWeek() == week)){
+                weeklyTime += elem->getDuration();
             }
         };
 
@@ -203,7 +204,7 @@ Method which returns number of activities in m_trainingInstances which uses cade
 int TRAININGARRAY::getNumberOfActivitiesWithCadence()
 {
     //[numberOfActivitiesWithCadence](int i){return i* % 2 == 0;}
-    auto checkCadenceLambda = [] (auto elem)->bool {return ((*elem).getCadenceUsed() == true);};
+    auto checkCadenceLambda = [] (auto& elem)->bool {return (elem->getCadenceUsed() == true);};
 
     // pass index to lambda
      int numberOfActivitiesWithCadence = std::count_if(m_trainingInstances.begin(), m_trainingInstances.end(), checkCadenceLambda);
