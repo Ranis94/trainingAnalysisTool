@@ -1,43 +1,62 @@
 #include "trainingArray.hpp"
 
 /*
-
-*/
+ * Method to add a running instance to m_trainingInstances, calls method updateWeeks() in order to 
+ * update m_latestWeek and m_oldestWeek according to content of vector
+ */
 void TRAININGARRAY::addRunningInstance(std::string type, double duration, int week, double cadence, std::map<std::string, double> heartRateZones)
 {
     m_trainingInstances.push_back(std::make_shared<RUNNING>(type, duration, week, cadence, heartRateZones));
     updateWeeks(week);
 }
 
+/*
+ * Method to add a cycling instance to m_trainingInstances, calls method updateWeeks() in order to 
+ * update m_latestWeek and m_oldestWeek according to content of vector
+ */
 void TRAININGARRAY::addCyclingInstance(std::string type, double duration, int week, double revolutionSpeed)
 {
     m_trainingInstances.push_back(std::make_shared<CYCLING>(type, duration, week, revolutionSpeed));
     updateWeeks(week);
 }
 
-// Assume atctivities are not stored incorrectly (week wise) and that latest week comes first in m_trainingInstances (push_back and read latest activities first)
+/*
+ * Method to update m_latestWeek and m_oldestWeek, assume activities are not stored incorrectly (week wise stored) 
+ * and that latest week comes first in m_trainingInstances (push_back and read latest activities first)
+ * 
+ * TODO: Add year as well, since trainingInstances can be from different years as well....
+ * TODO: Only works given all instances is from same year, will need to add more check for what year instance comes from later
+ */
 void TRAININGARRAY::updateWeeks(int week)
 {
     if (m_trainingInstances.size() == 1)
-    {
-        //Later we will add year as well, since trainingInstances can be from different years as well....
+    { 
         m_latestWeek = week;
         m_oldestWeek = week;
     }
     else
     {
-        // Only works given all instances is from same year, will need to add more check for what year instance comes from later
         if (m_oldestWeek != week)
         {
             m_oldestWeek = week;
         }
     }
-
 }
 
 
 //---------------------display data and methods they use---------------------------
 
+/*
+ * Method to display hear rate zone data for a given training type type on a weekly basis.
+ * Method loops through from m_latestWeek to m_oldestWeek and finds weekly total time and weekly 
+ * time spent in each heart rate zones doing provided training type.
+ *
+ * TODO: add optional argument to set how many weeks to display, by default loops all existing weeks
+ * TODO: add loop / check for year as well
+ * TODO: ensure end output is printed in same size for each row
+ * TODO: (?) Could add check on percentageInZones to see if zone4 and zone5 is > than 20%
+ * TODO: (?) Add number of trainings of type for given week(pass by reference to getWeeklyTime() and change from std:for_each to numTrainigns = std::count_if )?
+ */
 void TRAININGARRAY::displayZoneData(std::string type)
 {
     int week;
@@ -45,52 +64,38 @@ void TRAININGARRAY::displayZoneData(std::string type)
     std::map<std::string, double> weeklyTimeInZones;
     std::map<std::string, double> percentageInZones;
 
-    // For now this is enough, will need to add loop for year as well, just another for loop
     for (week = m_latestWeek; week >= m_oldestWeek;  --week)
     {
-        weeklyTime = getWeeklyTime(week, type); // Get time spent for activity "type" during week "week"
-        weeklyTimeInZones = getWeeklyTimeSpentInZones(week, type); // Get time spent in HR zones for activity "type" during week "week"
+        weeklyTime = getWeeklyTime(week, type);
+        weeklyTimeInZones = getWeeklyTimeSpentInZones(week, type);
         percentageInZones = getPercentageSpentInZones(weeklyTimeInZones, weeklyTime);
-        
-        //Could add check on percentageInZones to see if zone4 and zone5 is > than 20%
 
-        // Add number of trainings of type for given week(pass by reference to getWeeklyTime() and change from std:for_each to numTrainigns = std::count_if )?
-        std::cout << "Week: " << week << ", total time " << type << ": " << weeklyTime << ", time in zone1: " << weeklyTimeInZones["zone1"] << "(" << percentageInZones["percentageZone1"] << "%)" <<std::endl;
+        std::cout << "Week: " << week << ", total time " << type << ": " << weeklyTime 
+        << ", time in zone1: " << weeklyTimeInZones["zone1"] << "(" << percentageInZones["percentageZone1"] << "%)" 
+        << ", time in zone2: " << weeklyTimeInZones["zone2"] << "(" << percentageInZones["percentageZone2"] << "%)" 
+        << ", time in zone3: " << weeklyTimeInZones["zone3"] << "(" << percentageInZones["percentageZone3"] << "%)" 
+        << ", time in zone4: " << weeklyTimeInZones["zone4"] << "(" << percentageInZones["percentageZone4"] << "%)" 
+        << ", time in zone5: " << weeklyTimeInZones["zone5"] << "(" << percentageInZones["percentageZone5"] << "%)" << std::endl;
     }
 }
 
-std::map<std::string, double> TRAININGARRAY::getPercentageSpentInZones(std::map<std::string, double> WeeklyTimeSpentInZones, double weeklyTime)
-{
-    std::map<std::string, double> weeklyPercentageSpentInZones;
-    double weeklyPercentageInZone1 = WeeklyTimeSpentInZones["zone1"] / weeklyTime * 100;
-    double weeklyPercentageInZone2 = WeeklyTimeSpentInZones["zone2"] / weeklyTime * 100;
-    double weeklyPercentageInZone3 = WeeklyTimeSpentInZones["zone3"] / weeklyTime * 100;
-    double weeklyPercentageInZone4 = WeeklyTimeSpentInZones["zone4"] / weeklyTime * 100;
-    double weeklyPercentageInZone5 = WeeklyTimeSpentInZones["zone5"] / weeklyTime * 100;
-
-    weeklyPercentageSpentInZones.insert(std::make_pair("percentageZone1", weeklyPercentageInZone1));
-    weeklyPercentageSpentInZones.insert(std::make_pair("percentageZone2", weeklyPercentageInZone2));
-    weeklyPercentageSpentInZones.insert(std::make_pair("percentageZone3", weeklyPercentageInZone3));
-    weeklyPercentageSpentInZones.insert(std::make_pair("percentageZone4", weeklyPercentageInZone4));
-    weeklyPercentageSpentInZones.insert(std::make_pair("percentageZone5", weeklyPercentageInZone5));
-
-    return weeklyPercentageSpentInZones;
-}
-
+/*
+ * Method to get weekly time in each heart rate zone doing provided training type.
+ *
+ * TODO: Change getRunningTrue() to dynamic cast, if succeeded you know it's of correct type
+ * TODO: Can getHeartRateZones() be used instead??
+ */
 std::map<std::string, double> TRAININGARRAY::getWeeklyTimeSpentInZones(int week, std::string type)
 {
-    std::map<std::string, double> weeklyTimeSpentInZones;
     double weeklyTimeInZone1{0};
     double weeklyTimeInZone2{0};
     double weeklyTimeInZone3{0};
     double weeklyTimeInZone4{0};
     double weeklyTimeInZone5{0};
+    std::map<std::string, double> weeklyTimeSpentInZones;
 
-    //Switch case to create different lambdas for different types 
     if (type == "running")
     {
-        //Change getRunningTrue() to dynamic cast, if succeeded you know it's of correct type
-        //Can getHeartRateZones() be used instead??
         auto checkRunningGetTimeInZoneLambda = [&weeklyTimeInZone1, &weeklyTimeInZone2, &weeklyTimeInZone3, &weeklyTimeInZone4 , &weeklyTimeInZone5, week] (auto& elem) {
             if((elem->getRunningTrue() == true) && (elem->getWeek() == week)){
                 weeklyTimeInZone1 += elem->getZone("zone1");
@@ -117,17 +122,19 @@ std::map<std::string, double> TRAININGARRAY::getWeeklyTimeSpentInZones(int week,
     return weeklyTimeSpentInZones;
 }
 
+/*
+ * Method to get weekly time spent doing provided training type.  
+ *
+ * TODO: Change getRunningTrue() to dynamic cast, if succeeded you know it's of correct type
+ * TODO: Add functionality for more training types than running
+ * TODO: (?) Instead of switching over types here, creat void function which takes type, &weeklyTime, week and instance of run as input and call that function from std::for_each()
+ */
 double TRAININGARRAY::getWeeklyTime(int week, std::string type)
 {
     double weeklyTime{0};
 
-    //Instead of  switching over types here, creat void function which takes type, &weeklyTime, week and instance of run as input and call that function from std::for_each()
-
-    //Switch case to create different lambdas for different types 
     if (type == "running")
     {
-        //(auto& elem) för performance, sen skulle jag nog skippa att "dereference" pekarna och köra med -> istället 
-        //Change getRunningTrue() to dynamic cast, if succeeded you know it's of correct type
         auto checkRunningGetTimeLambda = [&weeklyTime, week] (auto& elem) {
             if((elem->getRunningTrue() == true) && (elem->getWeek() == week)){
                 weeklyTime += elem->getDuration();
@@ -135,6 +142,10 @@ double TRAININGARRAY::getWeeklyTime(int week, std::string type)
         };
 
         std::for_each(m_trainingInstances.begin(), m_trainingInstances.end(), checkRunningGetTimeLambda);
+    }
+    else if (type == "cycling")
+    {
+        //TBA
     }
     else
     {
@@ -144,8 +155,29 @@ double TRAININGARRAY::getWeeklyTime(int week, std::string type)
     return weeklyTime;
 }
 
+/*
+ * Method that finds percentage spent in each heart rate zone given weekly time spent in each heart rate zone and
+ * total weekly time.
+ */
+std::map<std::string, double> TRAININGARRAY::getPercentageSpentInZones(std::map<std::string, double> WeeklyTimeSpentInZones, double weeklyTime)
+{
+    int makePercentage{100};
+    std::map<std::string, double> weeklyPercentageSpentInZones;
 
+    double weeklyPercentageInZone1 = WeeklyTimeSpentInZones["zone1"] / weeklyTime * makePercentage;
+    double weeklyPercentageInZone2 = WeeklyTimeSpentInZones["zone2"] / weeklyTime * makePercentage;
+    double weeklyPercentageInZone3 = WeeklyTimeSpentInZones["zone3"] / weeklyTime * makePercentage;
+    double weeklyPercentageInZone4 = WeeklyTimeSpentInZones["zone4"] / weeklyTime * makePercentage;
+    double weeklyPercentageInZone5 = WeeklyTimeSpentInZones["zone5"] / weeklyTime * makePercentage;
 
+    weeklyPercentageSpentInZones.insert(std::make_pair("percentageZone1", weeklyPercentageInZone1));
+    weeklyPercentageSpentInZones.insert(std::make_pair("percentageZone2", weeklyPercentageInZone2));
+    weeklyPercentageSpentInZones.insert(std::make_pair("percentageZone3", weeklyPercentageInZone3));
+    weeklyPercentageSpentInZones.insert(std::make_pair("percentageZone4", weeklyPercentageInZone4));
+    weeklyPercentageSpentInZones.insert(std::make_pair("percentageZone5", weeklyPercentageInZone5));
+
+    return weeklyPercentageSpentInZones;
+}
 
 //---------------------Are these even interesting??---------------------------
 

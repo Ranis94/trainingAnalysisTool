@@ -6,7 +6,7 @@
 
 /*
  * Refactor idea:
- *  Clean out base class, no less about derived classes -> use dynamic cast to find activity instead of getter functions
+ *  Clean out base class, know less about derived classes -> use dynamic cast to find activity instead of getter functions
  *  Don't give type as input to TRAININGINstance, have m_type as defined enum of activites, then set m_type from derived classes based on dynamic casting or other method
 */
 
