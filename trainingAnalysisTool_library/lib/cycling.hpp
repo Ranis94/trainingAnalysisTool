@@ -25,5 +25,17 @@ class CYCLING : public TRAININGINSTANCE
         {
             return 0;
         } 
+        std::map<std::string, double> getHeartRateZones()
+        {
+            double initVal{0};
+            std::map<std::string, double> weeklyTimeSpentInZones;
+            weeklyTimeSpentInZones.insert(std::make_pair("zone1", initVal));
+            weeklyTimeSpentInZones.insert(std::make_pair("zone2", initVal));
+            weeklyTimeSpentInZones.insert(std::make_pair("zone3", initVal));
+            weeklyTimeSpentInZones.insert(std::make_pair("zone4", initVal));
+            weeklyTimeSpentInZones.insert(std::make_pair("zone5", initVal));
+
+            return weeklyTimeSpentInZones;
+        }
 };
 #endif

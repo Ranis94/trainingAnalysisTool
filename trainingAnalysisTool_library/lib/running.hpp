@@ -18,7 +18,7 @@ class RUNNING : public TRAININGINSTANCE
             {
                 TRAININGINSTANCE::setCadenceUsedTrue();
                 TRAININGINSTANCE::setRunningTrue();
-            } 
+            }
 
         double getCadence();
 

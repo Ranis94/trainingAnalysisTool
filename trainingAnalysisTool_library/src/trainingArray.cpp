@@ -120,26 +120,23 @@ void TRAININGARRAY::displayDistanceData(std::string type)
  * Method to get weekly time in each heart rate zone doing provided training type.
  *
  * TODO: Change getRunningTrue() to dynamic cast, if succeeded you know it's of correct type
- * TODO: Can getHeartRateZones() be used instead to decrease size of method? Maybe write an operation overload for +=
+ * TODO: Can getHeartRateZones() be used instead to decrease size of method?
  */
 std::map<std::string, double> TRAININGARRAY::getWeeklyTimeSpentInZones(int week, std::string type)
 {
-    double weeklyTimeInZone1{0};
-    double weeklyTimeInZone2{0};
-    double weeklyTimeInZone3{0};
-    double weeklyTimeInZone4{0};
-    double weeklyTimeInZone5{0};
+    double initVal{0};
     std::map<std::string, double> weeklyTimeSpentInZones;
+    weeklyTimeSpentInZones.insert(std::make_pair("zone1", initVal));
+    weeklyTimeSpentInZones.insert(std::make_pair("zone2", initVal));
+    weeklyTimeSpentInZones.insert(std::make_pair("zone3", initVal));
+    weeklyTimeSpentInZones.insert(std::make_pair("zone4", initVal));
+    weeklyTimeSpentInZones.insert(std::make_pair("zone5", initVal));
 
     if (type == "running")
     {
-        auto checkRunningGetTimeInZoneLambda = [&weeklyTimeInZone1, &weeklyTimeInZone2, &weeklyTimeInZone3, &weeklyTimeInZone4 , &weeklyTimeInZone5, week] (auto& elem) {
+        auto checkRunningGetTimeInZoneLambda = [&weeklyTimeSpentInZones, week] (auto& elem) {
             if((elem->getRunningTrue() == true) && (elem->getWeek() == week)){
-                weeklyTimeInZone1 += elem->getZone("zone1");
-                weeklyTimeInZone2 += elem->getZone("zone2");
-                weeklyTimeInZone3 += elem->getZone("zone3");
-                weeklyTimeInZone4 += elem->getZone("zone4");
-                weeklyTimeInZone5 += elem->getZone("zone5");
+                addMaps(weeklyTimeSpentInZones, elem->getHeartRateZones());
             }
         };
 
@@ -149,12 +146,6 @@ std::map<std::string, double> TRAININGARRAY::getWeeklyTimeSpentInZones(int week,
     {
         std::cout << "No matching types found" << std::endl;
     }
-
-    weeklyTimeSpentInZones.insert(std::make_pair("zone1", weeklyTimeInZone1));
-    weeklyTimeSpentInZones.insert(std::make_pair("zone2", weeklyTimeInZone2));
-    weeklyTimeSpentInZones.insert(std::make_pair("zone3", weeklyTimeInZone3));
-    weeklyTimeSpentInZones.insert(std::make_pair("zone4", weeklyTimeInZone4));
-    weeklyTimeSpentInZones.insert(std::make_pair("zone5", weeklyTimeInZone5));
 
     return weeklyTimeSpentInZones;
 }
@@ -262,6 +253,16 @@ std::map<std::string, double> TRAININGARRAY::getPercentageSpentInZones(std::map<
     weeklyPercentageSpentInZones.insert(std::make_pair("percentageZone5", weeklyPercentageInZone5));
 
     return weeklyPercentageSpentInZones;
+}
+
+/*
+ * Function that adds values from second std::map m2 to first std::map m1, assume
+ * same size and keys in both maps
+ */
+void addMaps(std::map<std::string, double>& m1, std::map<std::string, double> m2)
+{
+    for(auto& x : m2)
+        m1[x.first] += x.second;
 }
 
 //---------------------Are these even interesting??---------------------------

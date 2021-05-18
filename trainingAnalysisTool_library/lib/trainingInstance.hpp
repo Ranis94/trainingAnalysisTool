@@ -2,7 +2,7 @@
 #define TRAININGINSTANCE_HPP
 
 #include <string>
-
+#include <map>
 
 /*
  * Refactor idea:
@@ -46,6 +46,7 @@ class TRAININGINSTANCE
 
         virtual double getCadence() = 0; //Makes class abstract, good since I never want to create TRAINININSTANCE object
         virtual double getZone(std::string zone) = 0;
+        virtual std::map<std::string, double> getHeartRateZones() = 0;
 
 };
 #endif

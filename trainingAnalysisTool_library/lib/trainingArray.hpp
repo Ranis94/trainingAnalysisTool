@@ -50,8 +50,7 @@ class TRAININGARRAY
     void displayZoneData(std::string type);
     void displayDistanceData(std::string type);
     void displayCadenceData(std::string type); //TBA
-
-
+    
 
     //Getters: general, as it is now not sure if any of these are really interesting...
     double getAverageDuration();
