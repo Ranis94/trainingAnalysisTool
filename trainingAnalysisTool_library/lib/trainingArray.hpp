@@ -1,9 +1,14 @@
 #ifndef TRAININGARRAY_HPP
 #define TRAININGARRAY_HPP
 
-#include "trainingInstance.hpp"
+#include "training.hpp"
+#include "cardioTraining.hpp"
+#include "cadenceExercise.hpp"
 #include "running.hpp"
+#include "revolutionExercise.hpp"
 #include "cycling.hpp"
+#include "strokeExercise.hpp"
+#include "swimming.hpp"
 
 #include <vector>
 #include <algorithm>
@@ -22,7 +27,7 @@
 class TRAININGARRAY
 {
     private:
-        std::vector<std::shared_ptr<TRAININGINSTANCE>> m_trainingInstances; //dynamic cast
+        std::vector<std::shared_ptr<TRAINING>> m_trainingInstances; //dynamic cast
         int m_latestWeek;
         int m_oldestWeek;
         int makePercentage{100};
@@ -36,8 +41,8 @@ class TRAININGARRAY
     }
 
     //Adders
-    void addRunningInstance(std::string type, double duration, double distance, int week, double cadence, std::map<std::string, double> heartRateZones);
-    void addCyclingInstance(std::string type, double duration, double distance, int week, double revolutionSpeed);
+    void addRunningInstance(double duration, int week, double distance, double pace, std::map<std::string, double> heartRateZones, double cadence);
+    void addCyclingInstance(double duration, int week, double distance, double pace, std::map<std::string, double> heartRateZones, double revolutionSpeed);
 
 
     //Getters: specified by week and type
@@ -54,7 +59,7 @@ class TRAININGARRAY
     void displayNumberOfactivities(std::string type); //TBA
 
 
-    //Getters: general, as it is now not sure if any of these are really interesting...
+    //Getters: general, as it is now not sure if any of these are really interesting... 
     double getAverageDuration();
     double getTotalDuration();
     double getAverageCadence();

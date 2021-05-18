@@ -4,9 +4,9 @@
  * Method to add a running instance to m_trainingInstances, calls method updateWeeks() in order to 
  * update m_latestWeek and m_oldestWeek according to content of vector
  */
-void TRAININGARRAY::addRunningInstance(std::string type, double duration, double distance, int week, double cadence, std::map<std::string, double> heartRateZones)
+void TRAININGARRAY::addRunningInstance(double duration, int week, double distance, double pace, std::map<std::string, double> heartRateZones, double cadence)
 {
-    m_trainingInstances.push_back(std::make_shared<RUNNING>(type, duration, distance, week, cadence, heartRateZones));
+    m_trainingInstances.push_back(std::make_shared<RUNNING>(duration, week, distance, pace,  heartRateZones, cadence));
     updateWeeks(week);
 }
 
@@ -14,9 +14,9 @@ void TRAININGARRAY::addRunningInstance(std::string type, double duration, double
  * Method to add a cycling instance to m_trainingInstances, calls method updateWeeks() in order to 
  * update m_latestWeek and m_oldestWeek according to content of vector
  */
-void TRAININGARRAY::addCyclingInstance(std::string type, double duration, double distance, int week, double revolutionSpeed)
+void TRAININGARRAY::addCyclingInstance(double duration, int week, double distance, double pace, std::map<std::string, double> heartRateZones, double revolutionSpeed)
 {
-    m_trainingInstances.push_back(std::make_shared<CYCLING>(type, duration, distance, week, revolutionSpeed));
+    m_trainingInstances.push_back(std::make_shared<CYCLING>(duration, week, distance, pace, heartRateZones, revolutionSpeed));
     updateWeeks(week);
 }
 
@@ -267,77 +267,77 @@ void addMaps(std::map<std::string, double>& m1, std::map<std::string, double> m2
 
 //---------------------Are these even interesting??---------------------------
 
-double TRAININGARRAY::getTotalDuration()
-{
-    double totalDuration{0};
+// double TRAININGARRAY::getTotalDuration()
+// {
+//     double totalDuration{0};
 
-    for(auto it = m_trainingInstances.begin(); it != m_trainingInstances.end(); ++it)
-    {
-        totalDuration += (*it)->getDuration();
-    }
+//     for(auto it = m_trainingInstances.begin(); it != m_trainingInstances.end(); ++it)
+//     {
+//         totalDuration += (*it)->getDuration();
+//     }
 
-    return totalDuration;
-}
+//     return totalDuration;
+// }
 
-double TRAININGARRAY::getAverageDuration()
-{
-    double averageDuration{0};
+// double TRAININGARRAY::getAverageDuration()
+// {
+//     double averageDuration{0};
     
-    averageDuration = getTotalDuration() / m_trainingInstances.size();
+//     averageDuration = getTotalDuration() / m_trainingInstances.size();
 
-    return averageDuration;
-}
+//     return averageDuration;
+// }
 
 
-double TRAININGARRAY::getTotalCadence()
-{
-    double totalCadence{0};
+// double TRAININGARRAY::getTotalCadence()
+// {
+//     double totalCadence{0};
 
-    for(auto it = m_trainingInstances.begin(); it != m_trainingInstances.end(); ++it)
-    {
-        totalCadence += (*it)->getCadence();
-    }
+//     for(auto it = m_trainingInstances.begin(); it != m_trainingInstances.end(); ++it)
+//     {
+//         totalCadence += (*it)->getCadence();
+//     }
 
-    return totalCadence;
-}
+//     return totalCadence;
+// }
 
-double TRAININGARRAY::getAverageCadence()
-{
-    double averageCadence{0};
+// double TRAININGARRAY::getAverageCadence()
+// {
+//     double averageCadence{0};
     
-    averageCadence = getTotalCadence() / getNumberOfActivitiesWithCadence();
+//     averageCadence = getTotalCadence() / getNumberOfActivitiesWithCadence();
 
-    return averageCadence;
-}
+//     return averageCadence;
+// }
 
 int TRAININGARRAY::getNumberOfActivities()
 {
     return  m_trainingInstances.size();
 }
 
-/*
-Method which returns number of activities in m_trainingInstances which uses cadence
-*/
-int TRAININGARRAY::getNumberOfActivitiesWithCadence()
-{
-    auto checkCadenceLambda = [] (auto& elem)->bool {return (elem->getCadenceUsed() == true);};
+// /*
+// Method which returns number of activities in m_trainingInstances which uses cadence
+// */
+// int TRAININGARRAY::getNumberOfActivitiesWithCadence()
+// {
+//     auto checkCadenceLambda = [] (auto& elem)->bool {return (elem->getCadenceUsed() == true);};
 
-     int numberOfActivitiesWithCadence = std::count_if(m_trainingInstances.begin(), m_trainingInstances.end(), checkCadenceLambda);
+//      int numberOfActivitiesWithCadence = std::count_if(m_trainingInstances.begin(), m_trainingInstances.end(), checkCadenceLambda);
 
-    return numberOfActivitiesWithCadence;
-}
+//     return numberOfActivitiesWithCadence;
+// }
 
-double TRAININGARRAY::getTotalTimeSpentZone(std::string zone)
-{
-    double totalTimeZone{0};
+// double TRAININGARRAY::getTotalTimeSpentZone(std::string zone)
+// {
+//     double totalTimeZone{0};
 
-    for(std::vector<std::shared_ptr<TRAININGINSTANCE>>::iterator it = m_trainingInstances.begin(); it != m_trainingInstances.end(); ++it)
-    {
-        totalTimeZone += (*it)->getZone(zone);
-    }
+//     for(std::vector<std::shared_ptr<TRAINING>>::iterator it = m_trainingInstances.begin(); it != m_trainingInstances.end(); ++it)
+//     {
+//         totalTimeZone += (*it)->getZone(zone);
+//     }
 
-    return totalTimeZone;
-}
+//     return totalTimeZone;
+// }
 
 int TRAININGARRAY::getLatestWeek()
 {

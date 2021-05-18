@@ -1,7 +1,11 @@
-#include "trainingInstance.hpp"
+#include "training.hpp"
+#include "cardioTraining.hpp"
+#include "cadenceExercise.hpp"
 #include "running.hpp"
+#include "revolutionExercise.hpp"
 #include "cycling.hpp"
-#include "trainingArray.hpp"
+#include "strokeExercise.hpp"
+#include "swimming.hpp"
 
 #include <iostream>
 #include <string>
@@ -17,7 +21,7 @@
 
 void getTestInputWithOnlyRun()
 {
-    TRAININGARRAY onlyRunning;
+    TRAINING onlyRunning;
     std::ifstream myFile("C:\\Users\\A560292\\OneDrive - AF\\vsCode\\c++\\trainingAnalysisTool\\data.txt");
 
     // Make sure the file is open
@@ -46,10 +50,10 @@ void getTestInputWithOnlyRun()
             result.push_back(stod(val));
         }
 
-        std::string run = "run";
         double durationRun = result[1];
         double cadanceRun = result[2];
         double distanceRun = result[8];
+        double paceRun = result[9];
         int weekRun = result[0];
         std::map<std::string, double> heartZonesRun;
         heartZonesRun.insert(std::make_pair("zone1", result[3]));
@@ -58,7 +62,7 @@ void getTestInputWithOnlyRun()
         heartZonesRun.insert(std::make_pair("zone4", result[6]));
         heartZonesRun.insert(std::make_pair("zone5", result[7]));
 
-        onlyRunning.addRunningInstance(run, durationRun, distanceRun, weekRun, cadanceRun, heartZonesRun);
+        onlyRunning.addRunningInstance(durationRun, weekRun, distanceRun, paceRun, heartZonesRun, cadanceRun);
 
         std::cout << "Number of activities: " << onlyRunning.getNumberOfActivities() << std::endl;
         std::cout << "Time spent in Zone1: " << onlyRunning.getTotalTimeSpentZone("zone1") << std::endl;
