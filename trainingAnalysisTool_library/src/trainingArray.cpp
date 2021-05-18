@@ -1,4 +1,5 @@
 #include "trainingArray.hpp"
+#include <memory>
 
 /*
  * Method to add a running instance to m_trainingInstances, calls method updateWeeks() in order to 
@@ -134,8 +135,12 @@ std::map<std::string, double> TRAININGARRAY::getWeeklyTimeSpentInZones(int week,
 
     if (type == "running")
     {
+        // auto checkRunningGetTimeInZoneLambda = [&weeklyTimeSpentInZones, week] (auto& elem) {
+        //     if((elem->getRunningTrue() == true) && (elem->getWeek() == week)){
+        //         addMaps(weeklyTimeSpentInZones, elem->getHeartRateZones());
+        //     }
         auto checkRunningGetTimeInZoneLambda = [&weeklyTimeSpentInZones, week] (auto& elem) {
-            if((elem->getRunningTrue() == true) && (elem->getWeek() == week)){
+            if((RUNNING* elemP = dynamic_cast<RUNNING*>(elem) ) && (elem->getWeek() == week)){
                 addMaps(weeklyTimeSpentInZones, elem->getHeartRateZones());
             }
         };
