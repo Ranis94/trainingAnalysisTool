@@ -60,8 +60,14 @@ class TRAININGARRAY
 
 
     //Getters: general, as it is now not sure if any of these are really interesting... 
+    double getAverageDuration();
+    double getTotalDuration();
+    double getAverageCadence();
+    double getTotalCadence();
     int getNumberOfActivities();
     int getLatestWeek();
     int getOldestWeek();
+    double getTotalTimeSpentZone(std::string zone);
+    int getNumberOfActivitiesWithCadence();
 };
 #endif
