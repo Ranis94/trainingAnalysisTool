@@ -22,6 +22,11 @@ class TRAINING
         TRAINING(double duration, int week)
             : m_duration{duration}, m_week{week}{}
 
+        virtual ~TRAINING() //even virtual destructor makes a class polymorphic!
+        {
+            
+        }
+        
         void setType(); //TBA: Call from within constructor?
         std::string getType(); // do dynamic casting to return correct type or not defined, change m_type
         double getDuration();

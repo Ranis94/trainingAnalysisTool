@@ -135,13 +135,10 @@ std::map<std::string, double> TRAININGARRAY::getWeeklyTimeSpentInZones(int week,
 
     if (type == "running")
     {
-        // auto checkRunningGetTimeInZoneLambda = [&weeklyTimeSpentInZones, week] (auto& elem) {
-        //     if((elem->getRunningTrue() == true) && (elem->getWeek() == week)){
-        //         addMaps(weeklyTimeSpentInZones, elem->getHeartRateZones());
-        //     }
         auto checkRunningGetTimeInZoneLambda = [&weeklyTimeSpentInZones, week] (auto& elem) {
-            if((RUNNING* elemP = dynamic_cast<RUNNING*>(elem) ) && (elem->getWeek() == week)){
-                addMaps(weeklyTimeSpentInZones, elem->getHeartRateZones());
+            std::shared_ptr<RUNNING> elemP = std::dynamic_pointer_cast<RUNNING>(elem);
+            if((elemP != nullptr) && (elem->getWeek() == week)){
+                addMaps(weeklyTimeSpentInZones, elemP->getHeartRateZones());
             }
         };
 
@@ -169,8 +166,9 @@ double TRAININGARRAY::getWeeklyTime(int week, std::string type)
     if (type == "running")
     {
         auto checkRunningGetTimeLambda = [&weeklyTime, week] (auto& elem) {
-            if((elem->getRunningTrue() == true) && (elem->getWeek() == week)){
-                weeklyTime += elem->getDuration();
+            std::shared_ptr<RUNNING> elemP = std::dynamic_pointer_cast<RUNNING>(elem);
+            if((elemP != nullptr) && (elem->getWeek() == week)){
+                weeklyTime += elemP->getDuration();
             }
         };
 
@@ -202,8 +200,9 @@ double TRAININGARRAY::getWeeklyDistance(int week, std::string type)
     if (type == "running")
     {
         auto checkRunningGetDistanceLambda = [&weeklyDistance, week] (auto& elem) {
-            if((elem->getRunningTrue() == true) && (elem->getWeek() == week)){
-                weeklyDistance += elem->getDistance();
+            std::shared_ptr<RUNNING> elemP = std::dynamic_pointer_cast<RUNNING>(elem);
+            if((elemP != nullptr) && (elem->getWeek() == week)){
+                weeklyDistance += elemP->getDistance();
             }
         };
 

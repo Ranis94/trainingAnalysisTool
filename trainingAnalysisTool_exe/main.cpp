@@ -1,3 +1,4 @@
+#include "trainingArray.hpp"
 #include "training.hpp"
 #include "cardioTraining.hpp"
 #include "cadenceExercise.hpp"
@@ -21,7 +22,7 @@
 
 void getTestInputWithOnlyRun()
 {
-    TRAINING onlyRunning;
+    TRAININGARRAY onlyRunning;
     std::ifstream myFile("C:\\Users\\A560292\\OneDrive - AF\\vsCode\\c++\\trainingAnalysisTool\\data.txt");
 
     // Make sure the file is open
@@ -65,7 +66,6 @@ void getTestInputWithOnlyRun()
         onlyRunning.addRunningInstance(durationRun, weekRun, distanceRun, paceRun, heartZonesRun, cadanceRun);
 
         std::cout << "Number of activities: " << onlyRunning.getNumberOfActivities() << std::endl;
-        std::cout << "Time spent in Zone1: " << onlyRunning.getTotalTimeSpentZone("zone1") << std::endl;
 
     }
     // Close file
