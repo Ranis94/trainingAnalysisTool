@@ -10,7 +10,7 @@ class CYCLING : public REVOLUTIONEXERCISE
 {
     public:
         CYCLING(double duration, int week, double distance, double pace, std::map<std::string, double> heartRateZones, double revolutionSpeed)
-        : REVOLUTIONEXERCISE(duration, week, distance, pace, heartRateZones, revolutionSpeed){}
+        : REVOLUTIONEXERCISE(duration, week, distance, pace, heartRateZones, revolutionSpeed, TypeEnum::cycling){}
 
 };
 

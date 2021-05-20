@@ -46,17 +46,17 @@ class TRAININGARRAY
 
 
     //Getters: specified by week and type
-    std::map<std::string, double> getWeeklyTimeSpentInZones(int week, std::string type); //Get time spent in each zone for a given week and activity
+    std::map<std::string, double> getWeeklyTimeSpentInZones(int week, TypeEnum type); //Get time spent in each zone for a given week and activity
     std::map<std::string, double> getPercentageSpentInZones(std::map<std::string, double> WeeklyTimeSpentInZones, double weeklyTime); //Get percentage spent in each zone
-    double getWeeklyTime(int week, std::string type); //Get total time for given week and activity
-    double getWeeklyDistance(int week, std::string type); //Get total distance for given week and activity
+    double getWeeklyTime(int week, TypeEnum type); //Get total time for given week and activity
+    double getWeeklyDistance(int week, TypeEnum type); //Get total distance for given week and activity
     double getPercentualDistanceIncrease(double currentDistance, double previousDistance);
 
     //Displayers
-    void displayZoneData(std::string type);
-    void displayDistanceData(std::string type);
-    void displayCadenceData(std::string type); //TBA
-    void displayNumberOfactivities(std::string type); //TBA
+    void displayZoneData(TypeEnum type);
+    void displayDistanceData(TypeEnum type);
+    void displayCadenceData(TypeEnum type); //TBA
+    void displayNumberOfactivities(TypeEnum type); //TBA
 
 
     //Getters: general, as it is now not sure if any of these are really interesting... 

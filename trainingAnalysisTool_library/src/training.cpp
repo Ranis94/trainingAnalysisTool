@@ -10,13 +10,7 @@ int TRAINING::getWeek()
     return m_week;
 }
 
-std::string TRAINING::getType()
+TypeEnum TRAINING::getType()
 {
-    return m_type;
-}
-
-//TBA
-void TRAINING::setType()
-{
-
+    return m_typeEnum;
 }

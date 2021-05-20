@@ -12,8 +12,8 @@ class STROKEEXERCISE : public CARDIOTRAINING
         double m_strokeSpeed; //name?
 
     public:
-        STROKEEXERCISE(double duration, int week, double distance, double pace, std::map<std::string, double> heartRateZones, double strokeSpeed)
-        : CARDIOTRAINING(duration, week, distance, pace, heartRateZones), m_strokeSpeed{strokeSpeed} {}
+        STROKEEXERCISE(double duration, int week, double distance, double pace, std::map<std::string, double> heartRateZones, double strokeSpeed, TypeEnum type)
+        : CARDIOTRAINING(duration, week, distance, pace, heartRateZones, type), m_strokeSpeed{strokeSpeed} {}
 
 };
 

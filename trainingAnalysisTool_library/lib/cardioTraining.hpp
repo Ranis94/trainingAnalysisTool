@@ -14,8 +14,8 @@ class CARDIOTRAINING : public TRAINING
         std::map<std::string, double> m_heartRateZones;
 
     public:
-        CARDIOTRAINING(double duration, int week, double distance, double pace, std::map<std::string, double> heartRateZones)
-        : TRAINING(duration, week), m_distance{distance}, m_pace{pace}, m_heartRateZones{heartRateZones} {}
+        CARDIOTRAINING(double duration, int week, double distance, double pace, std::map<std::string, double> heartRateZones, TypeEnum type)
+        : TRAINING(duration, week, type), m_distance{distance}, m_pace{pace}, m_heartRateZones{heartRateZones} {}
 
     double getDistance();
     double getPace();

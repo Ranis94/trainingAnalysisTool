@@ -6,27 +6,29 @@
 
 /*
  * Refactor idea:
- *  Don't give type as input to TRAININGINstance, have m_type as defined enum of activites, then set m_type from derived classes based on dynamic casting or other method
+ * Add TypeEnum in all other child classes as well
+ * Make all constructors/classes protected: such that only lowest classes in hierarchy and instanciate the constructors
+ * Don't give type as input to TRAININGINstance, have m_type as defined enum of activites, then set m_type from derived classes based on dynamic casting or other method
 */
+
+enum TypeEnum {unclassified = 0, running = 1, cycling = 2, swimming = 3}; //Add more types as it goes
 
 class TRAINING
 {
     private:
         double m_duration;
+        TypeEnum m_typeEnum;
         int m_week; //Change to date when format is known
         //Add date and time of training as well -> weekday and week number as well. For other purposes later
-        enum m_typeEnum  {running, cycling}; //Add more types as it goes
-        std::string m_type = ""; //Enum, then in getType() do dynamic casting to return correct type or not defined. Instanciate as "unclassified"
 
     public:
         // week is only temporarily added
-        TRAINING(double duration, int week)
-            : m_duration{duration}, m_week{week}{}
+        TRAINING(double duration, int week, TypeEnum type = TypeEnum::unclassified)
+            : m_duration{duration}, m_week{week}, m_typeEnum{type}{}
 
-        virtual ~TRAINING(){} //Virtual destructor makes a class polymorphic!
+        virtual ~TRAINING(){} //Virtual destructor needed in a class polymorphic!
         
-        void setType(); //TBA: Call from within constructor?
-        std::string getType(); // do dynamic casting to return correct type or not defined, change m_type
+        TypeEnum getType();
         double getDuration();
         int getWeek();
 

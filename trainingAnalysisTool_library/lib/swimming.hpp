@@ -10,7 +10,7 @@ class SWIMMING : public STROKEEXERCISE
 {
     public:
         SWIMMING(double duration, int week, double distance, double pace, std::map<std::string, double> heartRateZones, double strokeSpeed)
-        : STROKEEXERCISE(duration, week, distance, pace, heartRateZones, strokeSpeed){}
+        : STROKEEXERCISE(duration, week, distance, pace, heartRateZones, strokeSpeed, TypeEnum::swimming){}
 
 };
 

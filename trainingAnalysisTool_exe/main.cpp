@@ -64,17 +64,19 @@ void getTestInputWithOnlyRun()
         heartZonesRun.insert(std::make_pair("zone5", result[7]));
 
         onlyRunning.addRunningInstance(durationRun, weekRun, distanceRun, paceRun, heartZonesRun, cadanceRun);
-
+        onlyRunning.addCyclingInstance(durationRun, weekRun, distanceRun, paceRun, heartZonesRun, cadanceRun);
+        
         std::cout << "Number of activities: " << onlyRunning.getNumberOfActivities() << std::endl;
 
     }
+
     // Close file
     myFile.close();
     
     std::cout << "getLatestWeek: " << onlyRunning.getLatestWeek() << std::endl;
     std::cout << "getOldestWeek: " << onlyRunning.getOldestWeek() << std::endl;
-    onlyRunning.displayZoneData("running");
-    onlyRunning.displayDistanceData("running");
+    onlyRunning.displayZoneData(TypeEnum::running);
+    onlyRunning.displayDistanceData(TypeEnum::running);
 }
 
 

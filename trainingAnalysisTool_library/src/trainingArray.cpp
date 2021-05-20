@@ -57,7 +57,7 @@ void TRAININGARRAY::updateWeeks(int week)
  * TODO: (?) Could add check on percentageInZones to see if zone4 and zone5 is > than 20%
  * TODO: (?) Add number of trainings of type for given week(pass by reference to getWeeklyTime() and change from std:for_each to numTrainigns = std::count_if )?
  */
-void TRAININGARRAY::displayZoneData(std::string type)
+void TRAININGARRAY::displayZoneData(TypeEnum type)
 {
     int week;
     double weeklyTime;
@@ -70,8 +70,9 @@ void TRAININGARRAY::displayZoneData(std::string type)
         weeklyTimeInZones = getWeeklyTimeSpentInZones(week, type);
         percentageInZones = getPercentageSpentInZones(weeklyTimeInZones, weeklyTime);
 
+        //Add function to convert TypeEnum to str
         std::cout << "#-------#" << std::endl;
-        std::cout << "Week: " << week << ", total time " << type << ": " << weeklyTime 
+        std::cout << "Week: " << week << ", total time "  << ": " << weeklyTime 
         << ", time in zone1: " << weeklyTimeInZones["zone1"] << "(" << percentageInZones["percentageZone1"] << "%)" 
         << ", time in zone2: " << weeklyTimeInZones["zone2"] << "(" << percentageInZones["percentageZone2"] << "%)" 
         << ", time in zone3: " << weeklyTimeInZones["zone3"] << "(" << percentageInZones["percentageZone3"] << "%)" 
@@ -88,7 +89,7 @@ void TRAININGARRAY::displayZoneData(std::string type)
  * TODO: add loop / check for year as well
  * TODO: add check if increase is bigger than 10% in repect to previous week
  */
-void TRAININGARRAY::displayDistanceData(std::string type)
+void TRAININGARRAY::displayDistanceData(TypeEnum type)
 {
     int week;
     double oldDistance;
@@ -97,14 +98,15 @@ void TRAININGARRAY::displayDistanceData(std::string type)
 
     for (week = m_latestWeek; week >= m_oldestWeek;  --week)
     {
-        if(week >= m_oldestWeek + 1)
+        if(week >= m_oldestWeek + 1) //Maybe not good, might loose 1 week
         {
             oldDistance = getWeeklyDistance(week-1, type);
             weeklyDistance = getWeeklyDistance(week, type);
             percentageIncrease = getPercentualDistanceIncrease(weeklyDistance, oldDistance);
 
+            //Write function that converts TypeEnum to std::string, add to cout
             std::cout << "#-------#" << std::endl;
-            std::cout << "Week: " << week << ", total distance " << type << ": " << weeklyDistance 
+            std::cout << "Week: " << week << ", total distance "  << ": " << weeklyDistance 
             << ", increase: " << percentageIncrease << "%" << std::endl;
         }
         else
@@ -123,7 +125,7 @@ void TRAININGARRAY::displayDistanceData(std::string type)
  * TODO: Change getRunningTrue() to dynamic cast, if succeeded you know it's of correct type
  * TODO: Can getHeartRateZones() be used instead to decrease size of method?
  */
-std::map<std::string, double> TRAININGARRAY::getWeeklyTimeSpentInZones(int week, std::string type)
+std::map<std::string, double> TRAININGARRAY::getWeeklyTimeSpentInZones(int week, TypeEnum type)
 {
     double initVal{0};
     std::map<std::string, double> weeklyTimeSpentInZones;
@@ -133,7 +135,7 @@ std::map<std::string, double> TRAININGARRAY::getWeeklyTimeSpentInZones(int week,
     weeklyTimeSpentInZones.insert(std::make_pair("zone4", initVal));
     weeklyTimeSpentInZones.insert(std::make_pair("zone5", initVal));
 
-    if (type == "running")
+    if (type == TypeEnum::running)
     {
         auto checkRunningGetTimeInZoneLambda = [&weeklyTimeSpentInZones, week] (auto& elem) {
             std::shared_ptr<RUNNING> elemP = std::dynamic_pointer_cast<RUNNING>(elem);
@@ -159,29 +161,40 @@ std::map<std::string, double> TRAININGARRAY::getWeeklyTimeSpentInZones(int week,
  * TODO: Add functionality for more training types than running
  * TODO: (?) Instead of switching over types here, creat void function which takes type, &weeklyTime, week and instance of run as input and call that function from std::for_each()
  */
-double TRAININGARRAY::getWeeklyTime(int week, std::string type)
+double TRAININGARRAY::getWeeklyTime(int week, TypeEnum type)
 {
-    double weeklyTime{0};
+    double weeklyTime{0.0};
+    std::vector<std::shared_ptr<TRAINING>> typeFilteredVec;// = m_trainingInstances;
 
-    if (type == "running")
+    for (auto &elem : m_trainingInstances)
     {
-        auto checkRunningGetTimeLambda = [&weeklyTime, week] (auto& elem) {
-            std::shared_ptr<RUNNING> elemP = std::dynamic_pointer_cast<RUNNING>(elem);
-            if((elemP != nullptr) && (elem->getWeek() == week)){
-                weeklyTime += elemP->getDuration();
-            }
-        };
+        if(elem->getType() == type)
+        {
+            typeFilteredVec.push_back(elem);
+        }
+    }
+    // std::cout << "size of typeFilteredVec before : " << typeFilteredVec.size() << std::endl;
+    
+    // auto createTypeFilterVecLambda = [type] (auto& elem) {
+    //     // std::cout << "before return: " << (int)elem->getType() << std::endl;
+    //     bool a = (elem->getType() != type);
+    //     // std::cout <<"a: " << a << std::endl;
+    //     return a;
+    // };
 
-        std::for_each(m_trainingInstances.begin(), m_trainingInstances.end(), checkRunningGetTimeLambda);
-    }
-    else if (type == "cycling")
-    {
-        //TBA
-    }
-    else
-    {
-        std::cout << "No matching types found" << std::endl;
-    }
+    // std::remove_if(typeFilteredVec.begin(), typeFilteredVec.end(), createTypeFilterVecLambda);
+
+
+    // std::cout << "size of typeFilteredVec after : " << typeFilteredVec.size() << std::endl;
+
+    auto checkWeekGetTimeLambda = [&weeklyTime, week] (auto& elem) {
+        if(elem->getWeek() == week){
+            weeklyTime += elem->getDuration();
+        }
+    };
+
+    std::for_each(typeFilteredVec.begin(), typeFilteredVec.end(), checkWeekGetTimeLambda);
+
 
     return weeklyTime;
 }
@@ -193,11 +206,11 @@ double TRAININGARRAY::getWeeklyTime(int week, std::string type)
  * TODO: Add functionality for more training types than running
  * TODO: (?) Instead of switching over types here, creat void function which takes type, &weeklyTime, week and instance of run as input and call that function from std::for_each()
  */
-double TRAININGARRAY::getWeeklyDistance(int week, std::string type)
+double TRAININGARRAY::getWeeklyDistance(int week, TypeEnum type)
 {
     double weeklyDistance{0};
 
-    if (type == "running")
+    if (type == TypeEnum::running)
     {
         auto checkRunningGetDistanceLambda = [&weeklyDistance, week] (auto& elem) {
             std::shared_ptr<RUNNING> elemP = std::dynamic_pointer_cast<RUNNING>(elem);
@@ -208,14 +221,7 @@ double TRAININGARRAY::getWeeklyDistance(int week, std::string type)
 
         std::for_each(m_trainingInstances.begin(), m_trainingInstances.end(), checkRunningGetDistanceLambda);
     }
-    else if (type == "cycling")
-    {
-        //TBA
-    }
-    else
-    {
-        std::cout << "No matching types found" << std::endl;
-    }
+
 
     return weeklyDistance;
 }
@@ -352,3 +358,14 @@ int TRAININGARRAY::getOldestWeek()
 {
     return m_oldestWeek;
 }
+
+
+// Working std::dynamic_pointer_cast
+// auto checkRunningGetTimeLambda = [&weeklyTime, week] (auto& elem) {
+//     //Working way using std::dynamic_pointer_cast
+//     //std::shared_ptr<RUNNING> elemP = std::dynamic_pointer_cast<RUNNING>(elem);
+//     //(elemP != nullptr)
+//     if(elem->getWeek() == week){
+//         weeklyTime += elem->getDuration();
+//     }
+// };

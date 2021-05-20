@@ -12,8 +12,8 @@ class REVOLUTIONEXERCISE : public CARDIOTRAINING
         double m_revolutionSpeed; // better name?
 
     public:
-        REVOLUTIONEXERCISE(double duration, int week, double distance, double pace, std::map<std::string, double> heartRateZones, double revolutionSpeed)
-        : CARDIOTRAINING(duration, week, distance, pace, heartRateZones), m_revolutionSpeed{revolutionSpeed} {}
+        REVOLUTIONEXERCISE(double duration, int week, double distance, double pace, std::map<std::string, double> heartRateZones, double revolutionSpeed, TypeEnum type)
+        : CARDIOTRAINING(duration, week, distance, pace, heartRateZones, type), m_revolutionSpeed{revolutionSpeed} {}
 
 };
 

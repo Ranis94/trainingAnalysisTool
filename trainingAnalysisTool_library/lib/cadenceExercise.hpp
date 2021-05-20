@@ -12,8 +12,8 @@ class CADENCEEXERCISE : public CARDIOTRAINING
         double m_cadence;
 
     public:
-        CADENCEEXERCISE(double duration, int week, double distance, double pace, std::map<std::string, double> heartRateZones, double cadence)
-        : CARDIOTRAINING(duration, week, distance, pace, heartRateZones), m_cadence{cadence} {}
+        CADENCEEXERCISE(double duration, int week, double distance, double pace, std::map<std::string, double> heartRateZones, double cadence, TypeEnum type)
+        : CARDIOTRAINING(duration, week, distance, pace, heartRateZones, type), m_cadence{cadence} {}
 
     double getCadence();
 };

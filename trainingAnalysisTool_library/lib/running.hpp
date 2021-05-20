@@ -10,7 +10,7 @@ class RUNNING : public CADENCEEXERCISE
 {
     public:
         RUNNING(double duration, int week, double distance, double pace, std::map<std::string, double> heartRateZones, double cadence)
-        : CADENCEEXERCISE(duration, week, distance, pace, heartRateZones, cadence){}
+        : CADENCEEXERCISE(duration, week, distance, pace, heartRateZones, cadence, TypeEnum::running){}
 };
 
 #endif
