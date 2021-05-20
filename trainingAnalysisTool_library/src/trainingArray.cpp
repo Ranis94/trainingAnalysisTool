@@ -157,7 +157,7 @@ std::map<std::string, double> TRAININGARRAY::getWeeklyTimeSpentInZones(int week,
 /*
  * Method to get weekly time spent doing provided training type.  
  *
- * TODO: Change getRunningTrue() to dynamic cast, if succeeded you know it's of correct type
+ * TODO: move check for week into if in first check, move to separate functions
  * TODO: Add functionality for more training types than running
  * TODO: (?) Instead of switching over types here, creat void function which takes type, &weeklyTime, week and instance of run as input and call that function from std::for_each()
  */
@@ -166,6 +166,9 @@ double TRAININGARRAY::getWeeklyTime(int week, TypeEnum type)
     double weeklyTime{0.0};
     std::vector<std::shared_ptr<TRAINING>> typeFilteredVec;// = m_trainingInstances;
 
+    // auto filteredVec = createTypeAndWeekFilteredVec(int week, TypeEnum type);
+    // createTypeAndWeekFilteredVec{
+    // std::vector<std::shared_ptr<TRAINING>> typeFilteredVec;
     for (auto &elem : m_trainingInstances)
     {
         if(elem->getType() == type)
@@ -173,6 +176,10 @@ double TRAININGARRAY::getWeeklyTime(int week, TypeEnum type)
             typeFilteredVec.push_back(elem);
         }
     }
+
+    // return typeFilteredVec;
+    // }
+
     // std::cout << "size of typeFilteredVec before : " << typeFilteredVec.size() << std::endl;
     
     // auto createTypeFilterVecLambda = [type] (auto& elem) {
