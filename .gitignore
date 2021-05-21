@@ -1,2 +1,4 @@
 build/*
+build/trainingAnalysisTool_exe/*
+build/trainingAnalysisTool_library/*
 .cmake/
