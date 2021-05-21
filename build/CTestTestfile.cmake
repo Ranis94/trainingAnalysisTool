@@ -1,6 +1,6 @@
 # CMake generated Testfile for 
-# Source directory: C:/vsCodeProjects/trainingAnalysisTool
-# Build directory: C:/vsCodeProjects/trainingAnalysisTool/build
+# Source directory: C:/Users/A560292/OneDrive - AF/vsCode/c++/trainingAnalysisTool
+# Build directory: C:/Users/A560292/OneDrive - AF/vsCode/c++/trainingAnalysisTool/build
 # 
 # This file includes the relevant testing commands required for 
 # testing this directory and lists subdirectories to be tested as well.
