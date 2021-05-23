@@ -82,6 +82,65 @@ void TRAININGARRAY::displayZoneData(TypeEnum type)
 }
 
 /*
+ * Method which get weekly time spent doing provided training type.  
+ */
+double TRAININGARRAY::getWeeklyTime(int week, TypeEnum type)
+{
+    double weeklyTime{0.0};
+    auto filteredVec = createTypeAndWeekFilteredVec(week, type);
+
+    auto weeklyTimeLambda = [&weeklyTime] (auto& elem) {weeklyTime += elem->getDuration();};
+    std::for_each(filteredVec.begin(), filteredVec.end(), weeklyTimeLambda);
+
+    return weeklyTime;
+}
+
+/*
+ * Method to get weekly time in each heart rate zone doing provided training type.
+ */
+std::map<std::string, double> TRAININGARRAY::getWeeklyTimeSpentInZones(int week, TypeEnum type)
+{
+    double initVal{0.0};
+    auto weeklyTimeSpentInZones = createZoneMap(initVal); //Why can addMaps() not be TRAININGARRAY:: but this not???
+    auto filteredVec = createTypeAndWeekFilteredVec(week, type);
+
+    auto weeklyHeartRateZoneLambda = [&weeklyTimeSpentInZones] (auto& elem) {
+        std::shared_ptr<CARDIOTRAINING> elemP = std::dynamic_pointer_cast<CARDIOTRAINING>(elem);
+        if(elemP != nullptr)
+            addMaps(weeklyTimeSpentInZones, elemP->getHeartRateZones());
+    };
+
+    std::for_each(filteredVec.begin(), filteredVec.end(), weeklyHeartRateZoneLambda);
+
+    return weeklyTimeSpentInZones;
+}
+
+/*
+ * Method that finds percentage spent in each heart rate zone given weekly time spent in each heart rate zone and
+ * total weekly time.
+ * 
+ * TODO: make this method smaller....
+ */
+std::map<std::string, double> TRAININGARRAY::getPercentageSpentInZones(std::map<std::string, double> WeeklyTimeSpentInZones, double weeklyTime)
+{
+    std::map<std::string, double> weeklyPercentageSpentInZones;
+
+    double weeklyPercentageInZone1 = WeeklyTimeSpentInZones["zone1"] / weeklyTime * makePercentage;
+    double weeklyPercentageInZone2 = WeeklyTimeSpentInZones["zone2"] / weeklyTime * makePercentage;
+    double weeklyPercentageInZone3 = WeeklyTimeSpentInZones["zone3"] / weeklyTime * makePercentage;
+    double weeklyPercentageInZone4 = WeeklyTimeSpentInZones["zone4"] / weeklyTime * makePercentage;
+    double weeklyPercentageInZone5 = WeeklyTimeSpentInZones["zone5"] / weeklyTime * makePercentage;
+
+    weeklyPercentageSpentInZones.insert(std::make_pair("percentageZone1", weeklyPercentageInZone1));
+    weeklyPercentageSpentInZones.insert(std::make_pair("percentageZone2", weeklyPercentageInZone2));
+    weeklyPercentageSpentInZones.insert(std::make_pair("percentageZone3", weeklyPercentageInZone3));
+    weeklyPercentageSpentInZones.insert(std::make_pair("percentageZone4", weeklyPercentageInZone4));
+    weeklyPercentageSpentInZones.insert(std::make_pair("percentageZone5", weeklyPercentageInZone5));
+
+    return weeklyPercentageSpentInZones;
+}
+
+/*
  * Method to display distance data for a given training type type on a weekly basis.
  * Method loops through from m_latestWeek to m_oldestWeek and finds weekly total distance doing provided training type.
  *
@@ -120,115 +179,23 @@ void TRAININGARRAY::displayDistanceData(TypeEnum type)
 }
 
 /*
- * Method to get weekly time in each heart rate zone doing provided training type.
- *
- * TODO: Change getRunningTrue() to dynamic cast, if succeeded you know it's of correct type
- * TODO: Can getHeartRateZones() be used instead to decrease size of method?
- */
-std::map<std::string, double> TRAININGARRAY::getWeeklyTimeSpentInZones(int week, TypeEnum type)
-{
-    double initVal{0};
-    std::map<std::string, double> weeklyTimeSpentInZones;
-    weeklyTimeSpentInZones.insert(std::make_pair("zone1", initVal));
-    weeklyTimeSpentInZones.insert(std::make_pair("zone2", initVal));
-    weeklyTimeSpentInZones.insert(std::make_pair("zone3", initVal));
-    weeklyTimeSpentInZones.insert(std::make_pair("zone4", initVal));
-    weeklyTimeSpentInZones.insert(std::make_pair("zone5", initVal));
-
-    if (type == TypeEnum::running)
-    {
-        auto checkRunningGetTimeInZoneLambda = [&weeklyTimeSpentInZones, week] (auto& elem) {
-            std::shared_ptr<RUNNING> elemP = std::dynamic_pointer_cast<RUNNING>(elem);
-            if((elemP != nullptr) && (elem->getWeek() == week)){
-                addMaps(weeklyTimeSpentInZones, elemP->getHeartRateZones());
-            }
-        };
-
-        std::for_each(m_trainingInstances.begin(), m_trainingInstances.end(), checkRunningGetTimeInZoneLambda);
-    }
-    else
-    {
-        std::cout << "No matching types found" << std::endl;
-    }
-
-    return weeklyTimeSpentInZones;
-}
-
-/*
- * Method to get weekly time spent doing provided training type.  
- *
- * TODO: move check for week into if in first check, move to separate functions
- * TODO: Add functionality for more training types than running
- * TODO: (?) Instead of switching over types here, creat void function which takes type, &weeklyTime, week and instance of run as input and call that function from std::for_each()
- */
-double TRAININGARRAY::getWeeklyTime(int week, TypeEnum type)
-{
-    double weeklyTime{0.0};
-    std::vector<std::shared_ptr<TRAINING>> typeFilteredVec;// = m_trainingInstances;
-
-    // auto filteredVec = createTypeAndWeekFilteredVec(int week, TypeEnum type);
-    // createTypeAndWeekFilteredVec{
-    // std::vector<std::shared_ptr<TRAINING>> typeFilteredVec;
-    for (auto &elem : m_trainingInstances)
-    {
-        if(elem->getType() == type)
-        {
-            typeFilteredVec.push_back(elem);
-        }
-    }
-
-    // return typeFilteredVec;
-    // }
-
-    // std::cout << "size of typeFilteredVec before : " << typeFilteredVec.size() << std::endl;
-    
-    // auto createTypeFilterVecLambda = [type] (auto& elem) {
-    //     // std::cout << "before return: " << (int)elem->getType() << std::endl;
-    //     bool a = (elem->getType() != type);
-    //     // std::cout <<"a: " << a << std::endl;
-    //     return a;
-    // };
-
-    // std::remove_if(typeFilteredVec.begin(), typeFilteredVec.end(), createTypeFilterVecLambda);
-
-
-    // std::cout << "size of typeFilteredVec after : " << typeFilteredVec.size() << std::endl;
-
-    auto checkWeekGetTimeLambda = [&weeklyTime, week] (auto& elem) {
-        if(elem->getWeek() == week){
-            weeklyTime += elem->getDuration();
-        }
-    };
-
-    std::for_each(typeFilteredVec.begin(), typeFilteredVec.end(), checkWeekGetTimeLambda);
-
-
-    return weeklyTime;
-}
-
-/*
- * Method to get weekly distance doing provided training type.  
- *
- * TODO: Change getRunningTrue() to dynamic cast, if succeeded you know it's of correct type
- * TODO: Add functionality for more training types than running
- * TODO: (?) Instead of switching over types here, creat void function which takes type, &weeklyTime, week and instance of run as input and call that function from std::for_each()
+ * Method to get weekly distance doing provided training type.
+ * Distance is a member of class CARDIOTRAINING, meaning 
+ * lamda will do dynamic_pointer_cast<CARDIOTRAINING> and only 
+ * access getDistance() if elemP != nullptr
  */
 double TRAININGARRAY::getWeeklyDistance(int week, TypeEnum type)
 {
-    double weeklyDistance{0};
+    double weeklyDistance{0.0};
+    auto filteredVec = createTypeAndWeekFilteredVec(week, type);
 
-    if (type == TypeEnum::running)
-    {
-        auto checkRunningGetDistanceLambda = [&weeklyDistance, week] (auto& elem) {
-            std::shared_ptr<RUNNING> elemP = std::dynamic_pointer_cast<RUNNING>(elem);
-            if((elemP != nullptr) && (elem->getWeek() == week)){
-                weeklyDistance += elemP->getDistance();
-            }
-        };
+    auto weeklyDistanceLambda = [&weeklyDistance, week] (auto& elem) {
+        std::shared_ptr<CARDIOTRAINING> elemP = std::dynamic_pointer_cast<CARDIOTRAINING>(elem);
+        if(elemP != nullptr)
+            weeklyDistance += elemP->getDistance();
+    };
 
-        std::for_each(m_trainingInstances.begin(), m_trainingInstances.end(), checkRunningGetDistanceLambda);
-    }
-
+    std::for_each(filteredVec.begin(), filteredVec.end(), weeklyDistanceLambda);
 
     return weeklyDistance;
 }
@@ -250,27 +217,42 @@ double TRAININGARRAY::getPercentualDistanceIncrease(double currentDistance, doub
 }
 
 /*
- * Method that finds percentage spent in each heart rate zone given weekly time spent in each heart rate zone and
- * total weekly time.
+ * Method that goes through m_trainingInstances and sorts out entries which fit
+ * given week and type. 
+ * 
+ * Reason to not use lambda insted of standard for and if is that it did not work, 
+ * assume issue arose since m_trainingInstances has shared_ptr entries
  */
-std::map<std::string, double> TRAININGARRAY::getPercentageSpentInZones(std::map<std::string, double> WeeklyTimeSpentInZones, double weeklyTime)
+std::vector<std::shared_ptr<TRAINING>> TRAININGARRAY::createTypeAndWeekFilteredVec(int week, TypeEnum type)
 {
-    std::map<std::string, double> weeklyPercentageSpentInZones;
+    std::vector<std::shared_ptr<TRAINING>> typeFilteredVec;
 
-    double weeklyPercentageInZone1 = WeeklyTimeSpentInZones["zone1"] / weeklyTime * makePercentage;
-    double weeklyPercentageInZone2 = WeeklyTimeSpentInZones["zone2"] / weeklyTime * makePercentage;
-    double weeklyPercentageInZone3 = WeeklyTimeSpentInZones["zone3"] / weeklyTime * makePercentage;
-    double weeklyPercentageInZone4 = WeeklyTimeSpentInZones["zone4"] / weeklyTime * makePercentage;
-    double weeklyPercentageInZone5 = WeeklyTimeSpentInZones["zone5"] / weeklyTime * makePercentage;
+    for (auto &elem : m_trainingInstances)
+    {
+        if((elem->getType() == type) && (elem->getWeek() == week))
+        {
+            typeFilteredVec.push_back(elem);
+        }
+    }
 
-    weeklyPercentageSpentInZones.insert(std::make_pair("percentageZone1", weeklyPercentageInZone1));
-    weeklyPercentageSpentInZones.insert(std::make_pair("percentageZone2", weeklyPercentageInZone2));
-    weeklyPercentageSpentInZones.insert(std::make_pair("percentageZone3", weeklyPercentageInZone3));
-    weeklyPercentageSpentInZones.insert(std::make_pair("percentageZone4", weeklyPercentageInZone4));
-    weeklyPercentageSpentInZones.insert(std::make_pair("percentageZone5", weeklyPercentageInZone5));
-
-    return weeklyPercentageSpentInZones;
+    return typeFilteredVec;
 }
+
+/*
+ * Method that creates a map for heart rate zones and sets value of all
+ * keys to initVal
+ */
+ std::map<std::string, double> TRAININGARRAY::createZoneMap(double initVal)
+ {
+    std::map<std::string, double> weeklyTimeSpentInZones;
+    weeklyTimeSpentInZones.insert(std::make_pair("zone1", initVal));
+    weeklyTimeSpentInZones.insert(std::make_pair("zone2", initVal));
+    weeklyTimeSpentInZones.insert(std::make_pair("zone3", initVal));
+    weeklyTimeSpentInZones.insert(std::make_pair("zone4", initVal));
+    weeklyTimeSpentInZones.insert(std::make_pair("zone5", initVal));
+
+    return weeklyTimeSpentInZones;
+ }
 
 /*
  * Function that adds values from second std::map m2 to first std::map m1, assume
@@ -376,3 +358,11 @@ int TRAININGARRAY::getOldestWeek()
 //         weeklyTime += elem->getDuration();
 //     }
 // };
+
+//
+// auto createTypeFilterVecLambda = [type] (auto& elem) {
+//     bool a = (elem->getType() != type);
+//     return a;
+// };
+
+// std::remove_if(typeFilteredVec.begin(), typeFilteredVec.end(), createTypeFilterVecLambda);

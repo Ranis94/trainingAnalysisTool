@@ -58,6 +58,9 @@ class TRAININGARRAY
     void displayCadenceData(TypeEnum type); //TBA
     void displayNumberOfactivities(TypeEnum type); //TBA
 
+    //Helper functions
+    std::vector<std::shared_ptr<TRAINING>> TRAININGARRAY::createTypeAndWeekFilteredVec(int week, TypeEnum type);
+    std::map<std::string, double> TRAININGARRAY::createZoneMap(double initVal);
 
     //Getters: general, as it is now not sure if any of these are really interesting... 
     double getAverageDuration();

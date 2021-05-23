@@ -5,10 +5,9 @@
 #include <map>
 
 /*
- * Refactor idea:
- * Add TypeEnum in all other child classes as well
+ * TODO ideas:
  * Make all constructors/classes protected: such that only lowest classes in hierarchy and instanciate the constructors
- * Don't give type as input to TRAININGINstance, have m_type as defined enum of activites, then set m_type from derived classes based on dynamic casting or other method
+ * create virtual TYPE collectdata() = 0; and implement in sub classes, use this in trainingArray instead of dynamic type casting. If that's possible?
 */
 
 enum TypeEnum {unclassified = 0, running = 1, cycling = 2, swimming = 3}; //Add more types as it goes
